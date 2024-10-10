@@ -1,8 +1,8 @@
 
 # Advance C
 ## ** Buổi 3: Interrupt - Timer **
-### Interrupt
 <details>
+### Interrupt
 Định nghĩa ngắt: Ngắt là 1 event làm cho vi điều khiển phải tạm dừng chương trình hiện tại để chuyển sang thực thi chương trình phục vụ ngắt (Interrupt Service Routine - ISR). Sau khi xử lý xong ngắt, MCU sẽ quay trở lại điểm trước đó và tiếp tục thực hiện công việc.
 
 Khi một ngắt xảy ra, MCU sẽ tìm địa chỉ của ISR tương ứng (gọi là vector ngắt) trong bộ nhớ để thực thi mã xử lý ngắt. Mỗi loại ngắt có một ISR riêng biệt để đảm bảo sự kiện được xử lý đúng cách.
