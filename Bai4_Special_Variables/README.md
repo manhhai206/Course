@@ -1,5 +1,5 @@
 
-# **Important Variables**
+# **Special Variables**
 
 ## Biến Extern
 
