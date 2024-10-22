@@ -66,7 +66,6 @@ int main() {
 Con trỏ hằng là con trỏ mà sau khi được khởi tạo và trỏ đến một địa chỉ cụ thể, nó không thể thay đổi để trỏ tới một địa chỉ khác.
 
 ```c
-Copy code
 int value1 = 10;
 int value2 = 20;
 int *const ptr = &value1; // ptr là con trỏ hằng trỏ đến value1
