@@ -195,7 +195,7 @@ int main()
 		printf("dia chi:  %p, gia tri %d\n",&ptr[i],ptr[i]);		
     }
 	//giai phong bo nho
-	free();
+	free(ptr);
     return 0;
 }
 
