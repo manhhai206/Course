@@ -9,33 +9,52 @@ jmp_buf buf;
 
 #define TRY if ((result = setjmp(buf)) == NO_ERROR)
 #define CATCH(x) else if(result == x)
-#define THROW(code, msg) do { error_code = code; error_message = msg; longjmp(buf, code); } while(0)
+#define THROW(code, msg) error_code = code; \
+                         error_message = msg; \
+                         longjmp(buf, code)
+#define failed 1
 
-void readFile()
+void readFile(int checkfail)
 {
     printf("Reading File.....\n");
-    THROW(FILE_ERROR, "Failed to read file!\n");
+    if(checkfail == failed)
+    {
+        THROW(FILE_ERROR, "Failed to read file!");\
+    } else {
+        printf("Reading File.....\n");
+    }
+    
 }
 
-void networkOperation()
+void networkOperation(int checkfail)
 {
     printf("Connecting...\n");
-    THROW(NETWORK_ERROR, "Failed to connect to the network!\n");
+    if(checkfail == failed)
+    {
+        THROW(NETWORK_ERROR, "Failed to connect to the network!");
+    } else {
+        printf("Connecting...\n");
+    }
 }
 
-void calculateData()
+void calculateData(int checkfail)
 {
     printf("Calculating....\n");
-    THROW(CALCULATION_ERROR, "Failed to calculate data.\n");
+    if(checkfail == failed)
+    {
+        THROW(CALCULATION_ERROR, "Failed to calculate data.");
+    } else {
+        printf("Calculating....\n");
+    }
 }
 
 int main()
 {
     int result;
     TRY {
-        readFile();
-        networkOperation();
-        calculateData();
+        readFile(0);
+        networkOperation(failed);
+        calculateData(0);
     }
     CATCH(FILE_ERROR) {
         printf("%s\n", error_message);
