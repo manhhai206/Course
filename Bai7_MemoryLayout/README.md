@@ -218,11 +218,3 @@ int main()
 | **Hiệu suất**             | Nhanh hơn do không khởi tạo                 | Chậm hơn vì phải khởi tạo tất cả phần tử về 0 |
 
 Việc sử dụng phương thức calloc sẽ an toàn hơn malloc  vì vùng nhớ cấp phát động sẽ được gán giá trị bằng 0 thay vì giá trị rác như calloc. Tuy nhiên việc thêm 1 bước gán giá trị các ô nhớ bằng 0 này cũng sẽ khiến nó bị chậm hơn so với malloc do phải thực hiện thêm thao tác.
-
-
-## Acknowledgements
-
- - [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
- - [Awesome README](https://github.com/matiassingers/awesome-readme)
- - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
-
