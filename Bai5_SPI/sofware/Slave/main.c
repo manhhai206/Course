@@ -7,9 +7,9 @@
 #define SPI_SCK_Pin 	GPIO_Pin_0
 #define SPI_MISO_Pin 	GPIO_Pin_1
 #define SPI_MOSI_Pin 	GPIO_Pin_2
-#define SPI_CS_Pin 		GPIO_Pin_3
-#define SPI_GPIO 			GPIOA
-#define SPI_RCC 			RCC_APB2Periph_GPIOA
+#define SPI_CS_Pin 	GPIO_Pin_3
+#define SPI_GPIO 	GPIOA
+#define SPI_RCC 	RCC_APB2Periph_GPIOA
 
 void delay_ms(uint32_t time);
 
@@ -56,12 +56,6 @@ void delay_ms(uint32_t time)
 	TIM_SetCounter(TIM2, 0);
 	while (TIM_GetCounter(TIM2) < time * 10) {}
 }
-
-void SPI_init()
-{
-	GPIO_WriteBit(SPI_GPIO, SPI_MISO_Pin, Bit_RESET);
-}
-
 
 uint8_t SPI_Slave_Receive(void){
 	uint8_t dataReceive = 0x00;	
