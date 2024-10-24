@@ -4,20 +4,23 @@
 #include "stm32f10x_spi.h"              // Keil::Device:StdPeriph Drivers:SPI
 #include "stm32f10x_tim.h"              // Keil::Device:StdPeriph Drivers:TIM
 
+// define cac chan SPI
 #define SPI_SCK_Pin 	GPIO_Pin_0
 #define SPI_MISO_Pin 	GPIO_Pin_1
 #define SPI_MOSI_Pin 	GPIO_Pin_2
-#define SPI_CS_Pin 		GPIO_Pin_3
-#define SPI_GPIO 			GPIOA
-#define SPI_RCC 			RCC_APB2Periph_GPIOA
+#define SPI_CS_Pin 	GPIO_Pin_3
+#define SPI_GPIO 	GPIOA
+#define SPI_RCC 	RCC_APB2Periph_GPIOA
 
 void delay_ms(uint32_t time);
 
+// Cau hinh CLock cho ngoai vi
 void RCC_Config(){
 	RCC_APB2PeriphClockCmd(SPI_RCC, ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 }
 
+// Khoi tao cac chan SPI
 void GPIO_Config(){
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Pin = SPI_SCK_Pin | SPI_MOSI_Pin | SPI_CS_Pin;
@@ -31,6 +34,7 @@ void GPIO_Config(){
 	GPIO_Init(SPI_GPIO, &GPIO_InitStructure);
 }
 
+//Set up Timer 
 void TIM_Config()
 {
     TIM_TimeBaseInitTypeDef TIM_InitStruct;
@@ -58,6 +62,7 @@ void Clock(){
 	delay_ms(1);
 }
 
+//Khoi tao Start
 void SPI_init(){
 	GPIO_WriteBit(SPI_GPIO, SPI_SCK_Pin, Bit_RESET);
 	GPIO_WriteBit(SPI_GPIO, SPI_CS_Pin, Bit_SET);
