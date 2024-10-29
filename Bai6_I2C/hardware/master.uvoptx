@@ -177,7 +177,12 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>receivedData,0x0A</ItemText>
+          <ItemText>Rcv</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Rcv</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
