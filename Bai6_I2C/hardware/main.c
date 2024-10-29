@@ -16,12 +16,13 @@ typedef enum {
 
 uint8_t Data1[10] = {0x03, 0x05, 0x0E, 0xDA, 0xA6, 0x6F, 0x50, 0x00, 0x00, 0xF0};
 uint8_t Data2[10] = {0x01, 0x0A, 0x19, 0x24, 0xFA, 0x10, 0x3C, 0x48, 0x59, 0x77};
-uint8_t Rcv[10] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t Rcv1[10] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+uint8_t Rcv2[10] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 void RCC_Config() {
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE); 
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 }
 
 void GPIO_Config() {
@@ -37,11 +38,11 @@ void I2C_Config() {
     I2C_InitTypeDef I2C_InitStructure;
 
     I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
-		I2C_InitStructure.I2C_ClockSpeed = 100000;
+    I2C_InitStructure.I2C_ClockSpeed = 100000;
     I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_16_9;
     I2C_InitStructure.I2C_OwnAddress1 = 0;
     I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
-		I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
+    I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
   
     I2C_Init(I2C1, &I2C_InitStructure); 
     I2C_Cmd(I2C1, ENABLE);
@@ -76,53 +77,52 @@ status EPROM_Read(uint16_t MemAddr, uint8_t SlaveAddr, uint8_t NumByte, uint8_t 
     I2C_SendData(I2C1, MemAddr & 0xFF);
     while(!I2C_GetFlagStatus(I2C1, I2C_FLAG_BTF));
 
+    I2C_GenerateSTOP(I2C1, ENABLE);
+    delay_us(5);
+
     I2C_GenerateSTART(I2C1, ENABLE);
     while(!I2C_GetFlagStatus(I2C1, I2C_FLAG_SB));
 
     I2C_Send7bitAddress(I2C1, (SlaveAddr << 1) | 0x01, I2C_Direction_Receiver);
     while(!I2C_GetFlagStatus(I2C1, I2C_FLAG_ADDR));
-    (void)I2C1->SR1; 
+    (void)I2C1->SR1;
+    (void)I2C1->SR2;
 
-    // Read data
     for (uint8_t i = 0; i < NumByte; ++i) {
         if (i < NumByte - 1) {
-            I2C_AcknowledgeConfig(I2C1, ENABLE); // Acknowledge next byte
+            I2C_AcknowledgeConfig(I2C1, ENABLE);
         } else {
-            I2C_AcknowledgeConfig(I2C1, DISABLE); // Last byte not acknowledged
+            I2C_AcknowledgeConfig(I2C1, DISABLE); 
         }
-        while(!I2C_GetFlagStatus(I2C1, I2C_FLAG_RXNE)); // Wait until data received
-        pData[i] = I2C_ReceiveData(I2C1); // Read data
+        while(!I2C_GetFlagStatus(I2C1, I2C_FLAG_RXNE)); 
+        pData[i] = I2C_ReceiveData(I2C1);
     }
 
-    // Send stop condition
     I2C_GenerateSTOP(I2C1, ENABLE);
+    I2C_AcknowledgeConfig(I2C1, ENABLE);
     return OK;
 }
 
 status EPROM_Write(uint16_t MemAddr, uint8_t SlaveAddr, uint8_t NumByte, uint8_t *pData) {
     for (uint8_t i = 0; i < NumByte; ++i) {
-        // Send start condition
         I2C_GenerateSTART(I2C1, ENABLE);
         while(!I2C_GetFlagStatus(I2C1, I2C_FLAG_SB));
 
-        // Send the device address for write
         I2C_Send7bitAddress(I2C1, SlaveAddr << 1, I2C_Direction_Transmitter);
         while(!I2C_GetFlagStatus(I2C1, I2C_FLAG_ADDR));
-        (void)I2C1->SR1; // Clear ADDR flag
+        (void)I2C1->SR1;
+        (void)I2C1->SR2;
 
-        // Send memory address
-        I2C_SendData(I2C1, (MemAddr + i) >> 8);
+        I2C_SendData(I2C1, ((MemAddr + i) >> 8) & 0xFF);
         while(!I2C_GetFlagStatus(I2C1, I2C_FLAG_BTF));
         I2C_SendData(I2C1, (MemAddr + i) & 0xFF);
         while(!I2C_GetFlagStatus(I2C1, I2C_FLAG_BTF));
 
-        // Send data
         I2C_SendData(I2C1, pData[i]);
         while(!I2C_GetFlagStatus(I2C1, I2C_FLAG_BTF));
 
-        // Send stop condition
         I2C_GenerateSTOP(I2C1, ENABLE);
-        delay_us(10000); // Delay for EEPROM write cycle
+        delay_us(10000);
     }
     return OK;
 }
@@ -131,12 +131,13 @@ int main() {
     RCC_Config();
     GPIO_Config();
     I2C_Config();
+    TIM_Config();
 
-    while (EPROM_Write(0x0045, 0xA0, 10, Data1) == NOT_OK) {}
-    while (EPROM_Write(0x0060, 0xA0, 10, Data2) == NOT_OK) {}
+while (EPROM_Write(0x0045, 0x50, 10, Data1) == NOT_OK) {}
+while (EPROM_Write(0x0060, 0x50, 10, Data2) == NOT_OK) {}
 
-    while (1) {
-        while (EPROM_Read(0x0045, 0xA0, 10, Rcv) == NOT_OK) {}
-        while (EPROM_Read(0x0060, 0xA0, 10, Rcv) == NOT_OK) {}
-    }
+while (1) {
+    while (EPROM_Read(0x0045, 0x50, 10, Rcv1) == NOT_OK) {}
+    while (EPROM_Read(0x0060, 0x50, 10, Rcv2) == NOT_OK) {}
+	}
 }
