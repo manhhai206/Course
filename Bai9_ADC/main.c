@@ -28,7 +28,6 @@ void ADC_Config() {
     
     ADC_Init(ADC1, &ADC_InitStruct);
     
-    // S?a thành ADC_Channel_5 d? s? d?ng PA5 (ADC1_IN5)
     ADC_RegularChannelConfig(ADC1, ADC_Channel_5, 1, ADC_SampleTime_239Cycles5);
     ADC_Cmd(ADC1, ENABLE);
     ADC_SoftwareStartConvCmd(ADC1, ENABLE);
@@ -43,6 +42,5 @@ int main() {
     
     while (1) {
         final = ADC_GetConversionValue(ADC1);
-        // B?n có th? thêm mã x? lý ? dây n?u c?n
     }
 }
