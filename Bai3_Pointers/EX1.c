@@ -13,6 +13,8 @@ int stringCompare(const char *str1, const char *str2) {
        str2++;
    }
    return *(const unsigned char*)str1 - *(const unsigned char*)str2;
+ //  H < T => > 0
+ // V > N => > 1
 }
 
 // Hàm so sánh theo tên
@@ -26,7 +28,7 @@ int compareByName(const void *a, const void *b) {
 int compareByDiemTrungBinh(const void *a, const void *b) {
    SinhVien *sv1 = (SinhVien *)a;
    SinhVien *sv2 = (SinhVien *)b;
-
+    //7.5 > 4.5
    if (sv1->diemTrungBinh > sv2->diemTrungBinh)
    {
         return 1;
@@ -87,7 +89,7 @@ int main() {
        },
     };
 
-   size_t size = sizeof(danhSachSV) / sizeof(danhSachSV[0]);
+  size_t size = sizeof(danhSachSV) / sizeof(danhSachSV[0]);
 
    // Sắp xếp theo tên
    sort(danhSachSV, size, compareByName);

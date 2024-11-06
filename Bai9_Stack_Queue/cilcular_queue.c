@@ -70,8 +70,6 @@ int main() {
     enqueue(queue, 20);
     enqueue(queue, 30);
 
-    printf("Front element: %d\n", front(*queue));
-
     printf("Dequeue element: %d\n", dequeue(queue));
 
     printf("Dequeue element: %d\n", dequeue(queue));
@@ -79,7 +77,7 @@ int main() {
     printf("Front element: %d\n", front(*queue));
 
     enqueue(queue, 40);
-    printf("Dequeue element: %d\n", dequeue(queue));
+    enqueue(queue, 50);
     printf("Front element: %d\n", front(*queue));
 
     return 0;
