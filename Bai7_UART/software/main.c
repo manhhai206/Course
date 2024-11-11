@@ -65,11 +65,11 @@ uint16_t Parity_Generate(uint8_t data, Parity_Mode Mode) {
     switch (Mode) {
         case Parity_Mode_NONE:
             return data;
-				// Neu bit 1 chan => thêm 1; neu le => thêm 0
+				// Neu bit 1 chan => thÃªm 1; neu le => thÃªm 0
         case Parity_Mode_ODD:
-            return (data << 1) | (count % 2 ? 0 : 1);
-        case Parity_Mode_EVEN:
             return (data << 1) | (count % 2 ? 1 : 0);
+        case Parity_Mode_EVEN:
+            return (data << 1) | (count % 2 ? 0 : 1);
         default:
             return data;
     }
