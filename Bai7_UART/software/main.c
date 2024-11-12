@@ -49,6 +49,29 @@ void UARTSoftware_Init(){
 
 	GPIO_SetBits(GPIOA,TX_Pin);
 	delay_us(1);
+
+uint16_t Parity_Generate(uint8_t data, Parity_Mode Mode) {
+    uint8_t count = 0;
+    uint8_t data1 = data;
+	
+		// Dem so luong bit 1
+    for (int i = 0; i < 8; i++) {
+        if (data1 & 0x01) {
+            count++;
+        }
+        data1 >>= 1;
+    }
+    switch (Mode) {
+        case Parity_Mode_NONE:
+            return data;
+				// Neu bit 1 chan => thêm 1; neu le => thêm 0
+        case Parity_Mode_ODD:
+            return (data << 1) | (count % 2 ? 1 : 0);
+        case Parity_Mode_EVEN:
+            return (data << 1) | (count % 2 ? 0 : 1);
+        default:
+            return data;
+    }
 }
 
 void UARTSoftware_Transmitt(char c) {
