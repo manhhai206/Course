@@ -45,7 +45,6 @@ void TIM_Config()
     TIM_Cmd(TIM2, ENABLE);                                // Start TIM2
 }
 
-// Generate delay in milliseconds using Timer
 void delay_ms(uint32_t time)
 {
     TIM_SetCounter(TIM2, 0);                           
@@ -97,7 +96,7 @@ int main(){
     SPI_init();             
 
     while(1){    
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < 8; i++){
             SPI_Master_Transmit(DataTrans[i]);            
             delay_ms(1000);                               
         }
