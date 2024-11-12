@@ -9,12 +9,6 @@
 
 #define BRateTime 104  // Adjust this for accurate baud rate timing 9600
 
-typedef enum {
-    Parity_Mode_NONE,
-    Parity_Mode_ODD,
-    Parity_Mode_EVEN
-} Parity_Mode;
-
 void RCC_Config() {
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
@@ -51,113 +45,60 @@ void clock() {
     delay_us(BRateTime);
 }
 
-uint16_t Parity_Generate(uint8_t data, Parity_Mode Mode) {
-    uint8_t count = 0;
-    uint8_t data1 = data;
-	
-		// Dem so luong bit 1
-    for (int i = 0; i < 8; i++) {
-        if (data1 & 0x01) {
-            count++;
-        }
-        data1 >>= 1;
-    }
-    switch (Mode) {
-        case Parity_Mode_NONE:
-            return data;
-				// Neu bit 1 chan => thêm 1; neu le => thêm 0
-        case Parity_Mode_ODD:
-            return (data << 1) | (count % 2 ? 0 : 1);
-        case Parity_Mode_EVEN:
-            return (data << 1) | (count % 2 ? 1 : 0);
-        default:
-            return data;
-    }
+void UARTSoftware_Init(){
+
+	GPIO_SetBits(GPIOA,TX_Pin);
+	delay_us(1);
 }
 
-uint8_t Parity_Check(uint8_t data, Parity_Mode Mode) {
-    uint8_t count = 0;
-    for (int i = 0; i < 8; i++) {
-        if (data & 0x01) {
-            count++;
-        }
-        data >>= 1;
-    }
-    switch (Mode) {
-        case Parity_Mode_NONE:
-            return 1;
-        case Parity_Mode_ODD:
-            return (count % 2) == 1;
-        case Parity_Mode_EVEN:
-            return (count % 2) == 0;
-        default:
-            return 0;
-    }
-}
-
-void UARTSoftware_Transmitt(char c, Parity_Mode mode) {
-    uint16_t data_with_parity = Parity_Generate(c, mode);
-
+void UARTSoftware_Transmitt(char c) {
     // Start bit
     GPIO_ResetBits(GPIOA, TX_Pin);
     clock();
 
-    // Send each bit, including parity bit if set
-    for (int i = 0; i < 9; i++) {
-        if (data_with_parity & (1 << i)) {
+    // Truy?n các bit d? li?u (LSB tru?c)
+    for (int i = 0; i < 8; i++) {
+        if (c & (1 << i)) {
             GPIO_SetBits(GPIOA, TX_Pin);
         } else {
             GPIO_ResetBits(GPIOA, TX_Pin);
         }
         clock();
     }
-
-    // Stop bit
-    GPIO_SetBits(GPIOA, TX_Pin);
-    clock();
 }
 
-char UARTSoftware_Receive(Parity_Mode mode) {
+char UARTSoftware_Receive() {
     char c = 0;
 
-    // Wait for start bit
+    // Ð?i Start bit
     while (GPIO_ReadInputDataBit(GPIOA, RX_Pin) == 1);
-    delay_us(BRateTime + BRateTime / 2);
-    // Receive each data bit (8 bits + 1 parity)
+
+    // Ch? m?t n?a th?i gian bit d? vào gi?a start bit
+    delay_us(BRateTime + BRateTime/ 2);
+
+    // Ð?c các bit d? li?u (LSB tru?c)
     for (int i = 0; i < 8; i++) {
+				
         if (GPIO_ReadInputDataBit(GPIOA, RX_Pin)) {
             c |= (1 << i);
         }
-        clock();
+				clock(); // Ð?i d?n gi?a bit ti?p theo
     }
-    // Read parity bit
-    uint8_t parity_bit = GPIO_ReadInputDataBit(GPIOA, RX_Pin);
-    clock();
-    // Stop bit 
+
+    // Ð?i Stop bit
     delay_us(BRateTime / 2);
-    // Check parity
-    if (mode != Parity_Mode_NONE) {
-        uint8_t data_with_parity = (c << 1) | parity_bit;
-        if (!Parity_Check(data_with_parity, mode)) {
-            return -1;
-        }
-    }
+
     return c;
 }
-
-uint8_t data[6] = {'h', 'a', 'i','2' ,'0' ,'6'};
 
 int main() {
     RCC_Config();
     GPIO_Config();
     TIM_Config();
+		UARTSoftware_Init();
 
-    Parity_Mode parity_mode = Parity_Mode_NONE; 
-    for (int i = 0; i < 6; i++) {
-        UARTSoftware_Transmitt(data[i], parity_mode);
-        delay_us(1000);
-    }
-
-    while (1) {
-    }
-}
+    while (1) 
+		{
+        UARTSoftware_Transmitt(UARTSoftware_Receive());
+		}
+ }

@@ -44,7 +44,7 @@ void SPI_Config(){
 }
 
 uint8_t SPI_Receive1Byte(void){
-    while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET); 
+    while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET){} 
     return(uint8_t)SPI_I2S_ReceiveData(SPI1);
 }
 
