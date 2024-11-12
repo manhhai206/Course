@@ -69,19 +69,19 @@ int main()
     for (int i = 0; i < 10; i++) 
     {
         USART_SendData(USART1, data[i]);
-				// kiem tra transmit flag xem co dang empty khong ?
+	// kiem tra transmit flag xem co dang empty khong ?
         while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET) {}
         delay_us(1000);
     }
 
     while (1) 
     {
-			if(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == SET)
-			{
-				datarc = USART_ReceiveData(USART1);
-				USART_SendData(USART1, datarc);
+	if(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == SET)
+	{
+		datarc = USART_ReceiveData(USART1);
+		USART_SendData(USART1, datarc);
         while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET) {}
 				
-			}
+	}
     }
 }
