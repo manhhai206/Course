@@ -9,10 +9,10 @@ Section Cross References
     main.o(i.GPIO_Config) refers to stm32f10x_gpio.o(i.GPIO_Init) for GPIO_Init
     main.o(i.RCC_Config) refers to stm32f10x_rcc.o(i.RCC_APB2PeriphClockCmd) for RCC_APB2PeriphClockCmd
     main.o(i.RCC_Config) refers to stm32f10x_rcc.o(i.RCC_APB1PeriphClockCmd) for RCC_APB1PeriphClockCmd
-    main.o(i.SPI_Init) refers to stm32f10x_gpio.o(i.GPIO_WriteBit) for GPIO_WriteBit
     main.o(i.SPI_Master_Transmit) refers to stm32f10x_gpio.o(i.GPIO_WriteBit) for GPIO_WriteBit
     main.o(i.SPI_Master_Transmit) refers to main.o(i.delay_ms) for delay_ms
     main.o(i.SPI_Master_Transmit) refers to main.o(i.Clock) for Clock
+    main.o(i.SPI_init) refers to stm32f10x_gpio.o(i.GPIO_WriteBit) for GPIO_WriteBit
     main.o(i.TIM_Config) refers to stm32f10x_tim.o(i.TIM_TimeBaseInit) for TIM_TimeBaseInit
     main.o(i.TIM_Config) refers to stm32f10x_tim.o(i.TIM_Cmd) for TIM_Cmd
     main.o(i.delay_ms) refers to stm32f10x_tim.o(i.TIM_SetCounter) for TIM_SetCounter
@@ -20,7 +20,7 @@ Section Cross References
     main.o(i.main) refers to main.o(i.RCC_Config) for RCC_Config
     main.o(i.main) refers to main.o(i.GPIO_Config) for GPIO_Config
     main.o(i.main) refers to main.o(i.TIM_Config) for TIM_Config
-    main.o(i.main) refers to main.o(i.SPI_Init) for SPI_Init
+    main.o(i.main) refers to main.o(i.SPI_init) for SPI_init
     main.o(i.main) refers to main.o(i.SPI_Master_Transmit) for SPI_Master_Transmit
     main.o(i.main) refers to main.o(i.delay_ms) for delay_ms
     main.o(i.main) refers to main.o(.data) for DataTrans
@@ -458,8 +458,8 @@ Image Symbol Table
     i.RCC_APB1PeriphClockCmd                 0x080003c8   Section        0  stm32f10x_rcc.o(i.RCC_APB1PeriphClockCmd)
     i.RCC_APB2PeriphClockCmd                 0x080003e8   Section        0  stm32f10x_rcc.o(i.RCC_APB2PeriphClockCmd)
     i.RCC_Config                             0x08000408   Section        0  main.o(i.RCC_Config)
-    i.SPI_Init                               0x0800041c   Section        0  main.o(i.SPI_Init)
-    i.SPI_Master_Transmit                    0x0800044c   Section        0  main.o(i.SPI_Master_Transmit)
+    i.SPI_Master_Transmit                    0x0800041c   Section        0  main.o(i.SPI_Master_Transmit)
+    i.SPI_init                               0x08000488   Section        0  main.o(i.SPI_init)
     i.SetSysClock                            0x080004b8   Section        0  system_stm32f10x.o(i.SetSysClock)
     SetSysClock                              0x080004b9   Thumb Code     8  system_stm32f10x.o(i.SetSysClock)
     i.SetSysClockTo72                        0x080004c0   Section        0  system_stm32f10x.o(i.SetSysClockTo72)
@@ -638,8 +638,8 @@ Image Symbol Table
     RCC_APB1PeriphClockCmd                   0x080003c9   Thumb Code    26  stm32f10x_rcc.o(i.RCC_APB1PeriphClockCmd)
     RCC_APB2PeriphClockCmd                   0x080003e9   Thumb Code    26  stm32f10x_rcc.o(i.RCC_APB2PeriphClockCmd)
     RCC_Config                               0x08000409   Thumb Code    20  main.o(i.RCC_Config)
-    SPI_Init                                 0x0800041d   Thumb Code    44  main.o(i.SPI_Init)
-    SPI_Master_Transmit                      0x0800044d   Thumb Code   102  main.o(i.SPI_Master_Transmit)
+    SPI_Master_Transmit                      0x0800041d   Thumb Code   102  main.o(i.SPI_Master_Transmit)
+    SPI_init                                 0x08000489   Thumb Code    44  main.o(i.SPI_init)
     SystemInit                               0x080005a1   Thumb Code    78  system_stm32f10x.o(i.SystemInit)
     TIM_Cmd                                  0x08000601   Thumb Code    24  stm32f10x_tim.o(i.TIM_Cmd)
     TIM_Config                               0x08000619   Thumb Code    50  main.o(i.TIM_Config)
@@ -733,8 +733,8 @@ Memory Map of the image
     0x080003c8   0x00000020   Code   RO          293    i.RCC_APB1PeriphClockCmd  stm32f10x_rcc.o
     0x080003e8   0x00000020   Code   RO          295    i.RCC_APB2PeriphClockCmd  stm32f10x_rcc.o
     0x08000408   0x00000014   Code   RO            6    i.RCC_Config        main.o
-    0x0800041c   0x00000030   Code   RO            7    i.SPI_Init          main.o
-    0x0800044c   0x0000006c   Code   RO            8    i.SPI_Master_Transmit  main.o
+    0x0800041c   0x0000006c   Code   RO            7    i.SPI_Master_Transmit  main.o
+    0x08000488   0x00000030   Code   RO            8    i.SPI_init          main.o
     0x080004b8   0x00000008   Code   RO         1070    i.SetSysClock       system_stm32f10x.o
     0x080004c0   0x000000e0   Code   RO         1071    i.SetSysClockTo72   system_stm32f10x.o
     0x080005a0   0x00000060   Code   RO         1073    i.SystemInit        system_stm32f10x.o

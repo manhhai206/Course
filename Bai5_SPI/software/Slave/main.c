@@ -1,7 +1,6 @@
 #include "stm32f10x.h"                  
 #include "stm32f10x_gpio.h"             
-#include "stm32f10x_rcc.h"              
-#include "stm32f10x_spi.h"              
+#include "stm32f10x_rcc.h"                            
 #include "stm32f10x_tim.h"              
 
 #define SPI_SCK_Pin 	GPIO_Pin_0
@@ -57,34 +56,46 @@ void delay_ms(uint32_t time)
 	while (TIM_GetCounter(TIM2) < time * 10) {}
 }
 
-uint8_t SPI_Slave_Receive(void){
-	uint8_t dataReceive = 0x00;	
-	uint8_t temp = 0x00;
-	while(GPIO_ReadInputDataBit(SPI_GPIO, SPI_CS_Pin));
-	while(!GPIO_ReadInputDataBit(SPI_GPIO, SPI_SCK_Pin));
-	for(int i = 0; i < 8; i++){ 
-		if(GPIO_ReadInputDataBit(SPI_GPIO, SPI_SCK_Pin)){
-			while (GPIO_ReadInputDataBit(SPI_GPIO, SPI_SCK_Pin)){
-				temp = GPIO_ReadInputDataBit(SPI_GPIO, SPI_MOSI_Pin);
-			}
-			dataReceive <<= 1;
-			dataReceive |= temp;
-    		}
-		while(!GPIO_ReadInputDataBit(SPI_GPIO, SPI_SCK_Pin));
-	}
-	while(!GPIO_ReadInputDataBit(SPI_GPIO, SPI_CS_Pin));
-	return dataReceive;
+void SPI_Init(){
+	GPIO_WriteBit(SPI_GPIO, SPI_SCK_Pin, Bit_RESET);
+	GPIO_WriteBit(SPI_GPIO, SPI_CS_Pin, Bit_SET);
+	GPIO_WriteBit(SPI_GPIO, SPI_MISO_Pin, Bit_RESET);
+	GPIO_WriteBit(SPI_GPIO, SPI_MOSI_Pin, Bit_RESET);
 }
 
-uint8_t receivedData;
+uint8_t SPI_Slave_Receive(void) {
+    uint8_t dataReceive = 0x00;
+    // Doi chan CS low
+    while (GPIO_ReadInputDataBit(SPI_GPIO, SPI_CS_Pin));
+    for (int i = 0; i < 8; i++) {
+        // Doi SCK o muc cao
+        while (!GPIO_ReadInputDataBit(SPI_GPIO, SPI_SCK_Pin));
+			
+        dataReceive <<= 1;
+        if (GPIO_ReadInputDataBit(SPI_GPIO, SPI_MOSI_Pin)) {
+            dataReceive |= 1;  
+        }
+        while (GPIO_ReadInputDataBit(SPI_GPIO, SPI_SCK_Pin));
+    }
+
+    // Ðoi Stop khi CS len cao
+    while (!GPIO_ReadInputDataBit(SPI_GPIO, SPI_CS_Pin));
+
+    return dataReceive;
+}
+
+uint8_t ReceiveData;
+
 int main()
 {
 	RCC_Config();
 	GPIO_Config();
-	TIM_Config();
+	TIM_Config();      
+	SPI_Init();        
 
-	while (1)
+	while(1)
 	{
-		receivedData = SPI_Slave_Receive();
+		ReceiveData = SPI_Slave_Receive(); 
+
 	}
 }

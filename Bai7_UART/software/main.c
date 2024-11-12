@@ -45,43 +45,20 @@ void clock() {
     delay_us(BRateTime);
 }
 
-void UARTSoftware_Init(){
-
-	GPIO_SetBits(GPIOA,TX_Pin);
-	delay_us(1);
-
-uint16_t Parity_Generate(uint8_t data, Parity_Mode Mode) {
-    uint8_t count = 0;
-    uint8_t data1 = data;
-	
-		// Dem so luong bit 1
-    for (int i = 0; i < 8; i++) {
-        if (data1 & 0x01) {
-            count++;
-        }
-        data1 >>= 1;
-    }
-    switch (Mode) {
-        case Parity_Mode_NONE:
-            return data;
-				// Neu bit 1 chan => thÃªm 1; neu le => thÃªm 0
-        case Parity_Mode_ODD:
-            return (data << 1) | (count % 2 ? 1 : 0);
-        case Parity_Mode_EVEN:
-            return (data << 1) | (count % 2 ? 0 : 1);
-        default:
-            return data;
-    }
+void UARTSoftware_Init() {
+    GPIO_SetBits(GPIOA, TX_Pin);  // Ð?t TX lên m?c 1
+    delay_us(1); 
 }
 
 void UARTSoftware_Transmitt(char c) {
     // Start bit
-    GPIO_ResetBits(GPIOA, TX_Pin);
-    clock();
+    GPIO_ResetBits(GPIOA, TX_Pin);	// Keo chan TX xuong 0
+    clock();	//Doi 1 BRate time
 
-    // Truy?n các bit d? li?u (LSB tru?c)
+    // Truyen cac bit du lieu (LSB truoc)
     for (int i = 0; i < 8; i++) {
-        if (c & (1 << i)) {
+        if (c & (1 << i)) 
+	{
             GPIO_SetBits(GPIOA, TX_Pin);
         } else {
             GPIO_ResetBits(GPIOA, TX_Pin);
@@ -93,35 +70,39 @@ void UARTSoftware_Transmitt(char c) {
 char UARTSoftware_Receive() {
     char c = 0;
 
-    // Ð?i Start bit
+    // Ðoi Start Bit
     while (GPIO_ReadInputDataBit(GPIOA, RX_Pin) == 1);
 
-    // Ch? m?t n?a th?i gian bit d? vào gi?a start bit
+    // Cho 1.5 Bratetime de doc ngay chinh giua data
     delay_us(BRateTime + BRateTime/ 2);
 
-    // Ð?c các bit d? li?u (LSB tru?c)
+    // Ðoc cac bit du lieu (LSB truoc)
     for (int i = 0; i < 8; i++) {
 				
         if (GPIO_ReadInputDataBit(GPIOA, RX_Pin)) {
             c |= (1 << i);
         }
-				clock(); // Ð?i d?n gi?a bit ti?p theo
+	clock(); // Doi dich cac bit tiep theo
     }
 
-    // Ð?i Stop bit
-    delay_us(BRateTime / 2);
-
+    // Ðoi Stop bit
+    delay_us(BRateTime / 2); // Doi 0.5 BrATE de dua ve vi tri cu
     return c;
 }
 
+char data[] = {'H','A','I'};
+
 int main() {
+	
     RCC_Config();
     GPIO_Config();
     TIM_Config();
-		UARTSoftware_Init();
+    UARTSoftware_Init();
 
     while (1) 
-		{
-        UARTSoftware_Transmitt(UARTSoftware_Receive());
-		}
+	{
+		for(int i=0;i<3;i++){
+     UARTSoftware_Transmitt(data[i]);
+		delay_us(1000);}
+	}
  }

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\master.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\master.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Tue Nov 12 11:01:49 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Tue Nov 12 19:08:25 2024
 <BR><P>
 <H3>Maximum Stack Usage =         40 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -478,7 +478,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteBit
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Master_Transmit
+<BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Master_Transmit
 </UL>
 
 <P><STRONG><a name="[50]"></a>GPIO_Config</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, main.o(i.GPIO_Config))
@@ -496,8 +496,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[4e]"></a>GPIO_WriteBit</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f10x_gpio.o(i.GPIO_WriteBit))
-<BR><BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Master_Transmit
-<LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Init
+<BR><BR>[Called By]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_init
+<LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Master_Transmit
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clock
 </UL>
 
@@ -518,20 +518,20 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[55]"></a>SPI_Init</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, main.o(i.SPI_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SPI_Init
-</UL>
-<BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteBit
-</UL>
-<BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
-<P><STRONG><a name="[56]"></a>SPI_Master_Transmit</STRONG> (Thumb, 102 bytes, Stack size 24 bytes, main.o(i.SPI_Master_Transmit))
+<P><STRONG><a name="[55]"></a>SPI_Master_Transmit</STRONG> (Thumb, 102 bytes, Stack size 24 bytes, main.o(i.SPI_Master_Transmit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = SPI_Master_Transmit &rArr; Clock &rArr; delay_ms
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteBit
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clock
+</UL>
+<BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[56]"></a>SPI_init</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, main.o(i.SPI_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SPI_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -575,7 +575,7 @@ Global Symbols
 <LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetCounter
 </UL>
 <BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Master_Transmit
+<LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Master_Transmit
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Clock
 </UL>
 
@@ -584,8 +584,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[59]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Config
-<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Master_Transmit
-<LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Init
+<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_init
+<LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Master_Transmit
 <LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_Config
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Config
 </UL>
