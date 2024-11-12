@@ -6,18 +6,20 @@
 
 #define SPI1_NSS 	GPIO_Pin_4
 #define SPI1_SCK 	GPIO_Pin_5
-#define SPI1_MISO GPIO_Pin_6
-#define SPI1_MOSI GPIO_Pin_7
+#define SPI1_MISO 	GPIO_Pin_6
+#define SPI1_MOSI 	GPIO_Pin_7
 #define SPI1_GPIO	GPIOA
 
-void RCC_Config() {
+void RCC_Config() 
+{
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 }
 
-void GPIO_Config(){
+void GPIO_Config()
+{
 	GPIO_InitTypeDef GPIO_InitStructure;
 
 	GPIO_InitStructure.GPIO_Pin = SPI1_NSS;
@@ -48,7 +50,8 @@ void SPI_Config(){
 	SPI_Cmd(SPI1, ENABLE);
 }
 
-void SPI_SendByte(uint8_t data) {
+void SPI_SendByte(uint8_t data)
+{
     GPIO_ResetBits(SPI1_GPIO, SPI1_NSS);  
     while(SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET); 
     SPI_I2S_SendData(SPI1, data); 
@@ -56,7 +59,8 @@ void SPI_SendByte(uint8_t data) {
     GPIO_SetBits(SPI1_GPIO, SPI1_NSS); 
 }
 
-void TIM_Config(){
+void TIM_Config()
+{
     TIM_TimeBaseInitTypeDef TIM_InitStruct;
 
     TIM_InitStruct.TIM_ClockDivision = TIM_CKD_DIV1;
@@ -68,13 +72,18 @@ void TIM_Config(){
     TIM_Cmd(TIM2, ENABLE);
 }
 
-void delay_ms(uint32_t time){
+void delay_ms(uint32_t time)
+{
     TIM_SetCounter(TIM2, 0);
     while (TIM_GetCounter(TIM2) < time * 10) {}
 }
 
 
 uint8_t dataToSend[] = {1,2,3,4,5}; 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0fe930060acc4aa654bb29bc5bff4e25ac46d03e
 int main() {
     RCC_Config();   
     GPIO_Config(); 
