@@ -79,7 +79,7 @@ void delay_ms(uint32_t time)
 }
 
 
-uint8_t dataToSend[] = {1, 2, 3, 4, 5}; 
+uint8_t dataToSend[] = {1,2,3,4,5}; 
 
 int main() {
     RCC_Config();   
