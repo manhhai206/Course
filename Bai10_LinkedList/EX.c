@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 typedef struct Node {
     int data;
     struct Node* next;
@@ -121,10 +120,9 @@ int main() {
     addFirst(&head, 40);
     addLast(&head,99);
     addAfter(&head,30,60);
-    output(head);
     deleteFirst(&head);
-    output(head);
-    deleteNode(&head,40);
+    deleteNode(&head,10);
+    deleteLast(&head);
     output(head);
     return 0;
 }
