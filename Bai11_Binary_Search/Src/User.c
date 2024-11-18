@@ -7,7 +7,7 @@ Node* createNode(User user) {
     return newNode;
 }
 
-void addUser(Node** head, User user) {
+void addNode(Node** head, User user) {
     Node* newNode = createNode(user);
 
     if (*head == NULL) {

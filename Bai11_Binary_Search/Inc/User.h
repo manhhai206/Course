@@ -18,7 +18,7 @@ typedef struct Node {
 } Node;
 
 Node* createNode(User user);
-void addUser(Node** head, User user);
+void addNode(Node** head, User user);
 int nameSort(const User* user1, const User* user2);
 int phoneSort(const User* user1, const User* user2);
 void bubbleSort(User* array, int size, int(*compare)(const User*, const User*));
