@@ -49,7 +49,7 @@ void readCSV(const char* filename, Node** head) {
     fclose(file);
 }
 
-void appendUserToCSV(const char* filename, User user) {
+void addToCSV(const char* filename, User user) {
     FILE* file = fopen(filename, "a"); 
 
     fprintf(file, "%s,%d,%s,%s\n", user.name, user.age, user.addr, user.phone_number);
@@ -78,7 +78,7 @@ void addUser(const char* filename,User newUser){
         fgets(newUser.phone_number, 15, stdin);
         newUser.phone_number[strcspn(newUser.phone_number, "\n")] = '\0';
 
-        appendUserToCSV(filename, newUser);
+        addToCSV(filename, newUser);
 
         free(newUser.name);
         free(newUser.addr);

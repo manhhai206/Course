@@ -3,6 +3,6 @@
 #include "User.h"
 
 void readCSV(const char* filename, Node** head);
-void appendUserToCSV(const char* filename, User user);
+void addToCSV(const char* filename, User user);
 void addUser(const char* filename,User user);
 #endif
