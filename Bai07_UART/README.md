@@ -91,6 +91,7 @@ void GPIO_Config() {
 ```
 PA9 (TX):
 - GPIO_Mode_AF_PP: Cấu hình chân ở chế độ ngõ ra thay thế (Alternate Function Push-Pull) cho tín hiệu truyền UART.
+
 PA10 (RX):
 - GPIO_Mode_IN_FLOATING: Cấu hình chân ở chế độ ngõ vào không kéo (Floating Input) để nhận tín hiệu UART.
 ```c
