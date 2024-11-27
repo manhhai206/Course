@@ -23,7 +23,7 @@ class Phanso
             return ketqua;
         } 
 
-        Phanso operator * (Phanso &other)
+        Phanso operator * (Phanso const &other)
         {
             Phanso ketqua;
             ketqua.num = this->num * other.num;
@@ -31,7 +31,7 @@ class Phanso
             return ketqua;
         }
 
-        bool operator == (Phanso &other){
+        bool operator == (Phanso const &other){
             return (this->num == other.num && this->den == other.den);
         }
 
