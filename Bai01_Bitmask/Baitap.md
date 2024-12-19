@@ -1,9 +1,5 @@
 
-# Bitmask
-
-Bitmask là kỹ thuật sử dụng các bit để lưu trữ các trạng thái hoặc flag. Sử dụng Bitmask thường dùng để set, delete hay check status của các bit  chẳng hạn như các bit trong thanh ghi của các MCU.
-
-## Ví dụ Bitmask trong quản lý OptionCar
+# Bitmask trong quản lý OptionCar
 Định nghĩa các mã với màu sắc, công suất và động cơ được định nghĩa bằng các macro:
 - Màu sắc (Red, Blue, Black, White).
 - Công suất động cơ (100HP, 150HP, 200HP).
