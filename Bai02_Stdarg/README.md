@@ -6,9 +6,6 @@ Thư viện Stdarg: được dùng để viết một hàm mà số lượng đ�
 
 Ví dụ:
 ```c
-#include <stdio.h>
-#include <stdarg.h>
-
 #define tong(...) sum(__VA_ARGS__,'\n')
 
 int sum(int count,...){
@@ -26,12 +23,6 @@ int sum(int count,...){
     va_end(args);
     return sum;
 
-}
-
-int main()
-{
-    printf("tong = %d\n",tong(3,1,2,3,0,1));
-    return 0;
 }
 ```
 

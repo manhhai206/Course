@@ -113,18 +113,19 @@ error: ‘localGlobalVar’ undeclared (first use in this function)
 Từ khóa register là làm tăng hiệu năng của chương trình.
 Trong kiến trúc vi xử lý thì ALU đóng vài trò xử lý toán học.Dữ liệu đi vào làm việc với ALU phải chứ trong một vùng đặc biệt, gọi là các thanh ghi (register), và ALU chỉ làm việc với đống thanh ghi đó.
 
-Trong khi đó các biến khai báo trong chương trình thì đặt ở bộ nhớ ngoài(RAM… ). Do đó với khai báo biến thông thường, để thực hiên  một phép tính thì cần có 3 bước.
+Trong khi đó các biến khai báo trong chương trình thì đặt ở bộ nhớ ngoài(RAM… ). Do đó với khai báo biến thông thường, để thực hiên  một phép tính thì cần có 4 bước.
 
+1.Gía trị lưu trữ trong ram được đưa vào thanh ghi Register.
 
-1.Nạp giá trị từ vùng Nhớ chứa biến vào register.
+2.Register đẩy giá trị vài ALU để xử lý toán học.
 
-2.Yêu cầu ALU xử lý register vừa được nạp vào giá trị.
+3.Xử lý xong thì lại đưa giá trị về Register.
 
-3.Đưa kết quả vừa xử lý của ALU ra ngoài vùng nhớ chưa biến.
+4.Register đẩy giá trị đó về lại Ram.
 
 ![](https://khuenguyencreator.com/wp-content/uploads/2021/09/register-.jpg)
 
-Khi thêm từ khóa register để khai báo biến, thì tức là ta đã yêu cầu trình biên dịch ưu tiên đặc biệt dành luôn vùng register để chứa biến đó. Và hiển nhiên khi thực hiện tính toán trên biến đó thì giảm được bước 1 và 3, giảm bớt thủ tục vậy nên hiệu năng tăng lên.
+Khi thêm từ khóa register để khai báo biến, thì tức là ta đã yêu cầu trình biên dịch ưu tiên đặc biệt dành luôn vùng register để chứa biến đó. Và hiển nhiên khi thực hiện tính toán trên biến đó thì giảm được bước 1 và 4, giảm bớt thủ tục vậy nên hiệu năng tăng lên.
 
 ## Biến volatile
 
@@ -144,7 +145,7 @@ volatile bool flag = false;
 
 void interruptHandler() {
     flag = true; 
-
+}
 void checkFlag() {
     printf("Đang chờ flag thay đổi...\n");
     while (!flag) {
