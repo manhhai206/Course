@@ -23,28 +23,28 @@ class DoiTuong
 };
 
 class SinhVien : public DoiTuong {
-private:
-    string chuyenNganh;
+    private:
+        string chuyenNganh;
 
-public:
-    void setMajor(const string& chuyenNganh) {
-        this->chuyenNganh = chuyenNganh;
-    }
+    public:
+        void setMajor(const string& chuyenNganh) {
+            this->chuyenNganh = chuyenNganh;
+        }
 
-    void display() { 
-        cout << "name: " << name << endl;
-        cout << "Id: " << id << endl;
+        void display() { 
+            cout << "name: " << name << endl;
+            cout << "Id: " << id << endl;
         cout << "Major: " << chuyenNganh << endl;
     }
 };
 
 class HocSinh : public DoiTuong {
-private:
-    string lop;
+    private:
+        string lop;
 
-public:
-    void setClass(const string& lop) {
-        this->lop = lop;
+    public:
+        void setClass(const string& lop) {
+            this->lop = lop;
     }
 
     void display() { 
@@ -55,12 +55,12 @@ public:
 };
 
 class GiaoVien : public DoiTuong {
-private:
-    string mon;
+    private:
+        string mon;
 
-public:
-    void setSubject(const string& mon) {
-        this->mon = mon;
+    public:
+        void setSubject(const string& mon) {
+            this->mon = mon;
     }
 
     void display() { 

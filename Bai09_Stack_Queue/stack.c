@@ -12,7 +12,7 @@ stack *StackInitialize(int size) {
     stack *Stack = (stack*)malloc(sizeof(stack));
     Stack->data = (int*)malloc(size * sizeof(int));
     Stack->size = size;
-    Stack->top = -1; // Initially the stack is empty
+    Stack->top = -1; 
     return Stack;
 }
 
@@ -68,7 +68,7 @@ int main() {
     printf("Pop element: %d\n", pop(Stack));
     
     free(Stack->data);
-    free(Stack); // Don't forget to free the stack structure itself
+    free(Stack); 
 
     return 0;
 }
