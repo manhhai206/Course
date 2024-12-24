@@ -80,4 +80,31 @@ int main() {
 }
 ```
 
-### ParamType là tham trị
+## Class template
+- Class templates là một khái niệm tương tự như function templates, nhưng được áp dụng cho class thay vì function.'
+- Class templates cho phép bạn viết một lớp chung mà có thể được sử dụng với nhiều kiểu dữ liệu khác nhau.
+```c
+template<typename T1, typename T2>
+class Sensor
+{
+    private:
+        T1 value1;
+        T2 value2;
+
+    public:
+        Sensor(T1 init1, T2 init2): value1(init1), value2(init2){}
+
+        T1 getValue1(){
+            return value1;
+        }
+
+        T2 getValue2(){
+            return value2;
+        }
+
+        void display(){
+            cout << "Sensor Value 1 :" << getValue1() << endl;
+            cout << "Sensor Value 2 :" << getValue2() << endl; 
+        }
+};
+```
