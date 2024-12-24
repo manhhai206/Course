@@ -48,7 +48,7 @@ int Flash_WriteNumByte(uint32_t address, uint8_t *data, int num) {
     }
 
     FLASH_Lock();
-    return 0; // Ghi thành công
+    return 0; 
 }
 
 uint8_t data[] = {0x12, 0x34, 0x56};
