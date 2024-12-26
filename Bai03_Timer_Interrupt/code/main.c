@@ -6,7 +6,7 @@
 void RCC_Config()
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 }
 
 void GPIO_Config()
@@ -47,9 +47,9 @@ int main()
 	while(1)
 	{
 		GPIO_ResetBits(GPIOC,GPIO_Pin_13);
-		delay_ms(1000);
+		delay_ms(100);
 		GPIO_SetBits(GPIOC,GPIO_Pin_13);
-		delay_ms(1000);
+		delay_ms(100);
 	}
 }
 
