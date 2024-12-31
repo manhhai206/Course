@@ -1,18 +1,14 @@
 #include <stdio.h>
-
-/* Macro */
-#define size 20
-int arr[size];
+#include "main2.c"
 
 /* display function */
 void display(){
     printf ("hello");
 }
-/* Global variable */
-int a = 10;
 
 int main()
 {
+    display2();
     display();
     return 0;
 }
