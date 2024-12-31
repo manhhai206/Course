@@ -1,6 +1,7 @@
 
 # Smart pointers
 Smart pointers là một cơ chế quản lý bộ nhớ tự động giúp giảm thiểu rủi ro của lỗi liên quan đến quản lý bộ nhớ và giúp người lập trình tránh được việc quên giải phóng bộ nhớ đã được cấp phát.
+Các smart pointer đều là các class template và không phải là con trỏ . Chúng chứa một con trỏ thô bên trong và cung cấp các phương thức để làm việc với đối tượng được quản lý.
 
 # Unique Pointer
 Unique Pointer là 1 loại Smart Pointer giúp quản lý tự động và tự động giải phóng bộ nhớ khi không cần thiết.
