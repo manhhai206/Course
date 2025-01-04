@@ -1,11 +1,15 @@
-#include "stdio.h"
-#include "setjmp.h"
+#include <stdio.h>
+#include <setjmp.h>
 
 jmp_buf buf;
 int exception;
 
+/* Lưu trạng thái chương trình tại vị trí hiện tại. Trả về 0 khi được gọi lần đầu. */
 #define TRY if((exception = setjmp(buf)) == 0 )
+
 #define CATCH(x) else if(exception == x)
+
+/* Quay lại vị trí gọi setjmp(env) và trả về giá trị x */
 #define THROW(x) longjmp(buf,x)
 
 double divide(int a,int b)
@@ -21,7 +25,7 @@ double divide(int a,int b)
 
 int main(){
 
-    TRY
+    TRY 
     {
         double kq = divide(5,0);
         printf("Ket qua = %f\n",kq);

@@ -20,15 +20,13 @@ typedef uint8_t CarEngine;
 #define SUNROOF_MASK 1 << 0     // 0001
 #define PREMIUM_AUDIO_MASK 1 << 1 // 0010
 #define SPORTS_PACKAGE_MASK 1 << 2 // 0100
-#define NONE_MASK 1 << 3
 // Thêm các bit masks khác tùy thuộc vào tùy chọn
 
 typedef struct {
-    uint8_t additionalOptions : 4; 
+    uint8_t additionalOptions : 3; 
     CarColor color : 2;
     CarPower power : 2;
     CarEngine engine : 1;
-    
 } CarOptions;
 
 void configureCar(CarOptions *car, CarColor color, CarPower power, CarEngine engine, uint8_t options) {
@@ -47,7 +45,6 @@ void unsetOption(CarOptions *car, uint8_t optionMask) {
     car->additionalOptions &= ~optionMask;
 }
 
-
 void displayCarOptions(const CarOptions car) {
     const char *colors[] = {"Red", "Blue", "Black", "White"};
     const char *powers[] = {"100HP", "150HP", "200HP"};
@@ -60,7 +57,6 @@ void displayCarOptions(const CarOptions car) {
     printf("Sunroof: %s\n", (car.additionalOptions & SUNROOF_MASK) ? "Yes" : "No");
     printf("Premium Audio: %s\n", (car.additionalOptions & PREMIUM_AUDIO_MASK) ? "Yes" : "No");
     printf("Sports Package: %s\n", (car.additionalOptions & SPORTS_PACKAGE_MASK) ? "Yes" : "No");
-    printf("None Package: %s\n", (car.additionalOptions & NONE_MASK) ? "Yes" : "No");
 }
 
 int main() {
@@ -68,12 +64,11 @@ int main() {
     configureCar(&myCar, COLOR_BLACK, POWER_150HP, ENGINE_2_0L, 0); 
 	
     setOption(&myCar, SUNROOF_MASK);
-    setOption(&myCar, PREMIUM_AUDIO_MASK);
+    setOption(&myCar, SPORTS_PACKAGE_MASK);
     
     displayCarOptions(myCar);
     unsetOption(&myCar, SUNROOF_MASK); 
-    unsetOption(&myCar, PREMIUM_AUDIO_MASK); 
-    setOption(&myCar, NONE_MASK);
+    unsetOption(&myCar, SPORTS_PACKAGE_MASK); 
     displayCarOptions(myCar);
 
     printf("size of my car: %d\n", sizeof(CarOptions));

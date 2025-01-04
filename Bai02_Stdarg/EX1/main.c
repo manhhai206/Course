@@ -6,11 +6,12 @@
 int sum(int count,...){
 
     va_list args;
-    va_start(args,count);
+    va_start(args,count); //7
 
-    int sum = count;
+    int sum = count; //sum = 7;
+    /* Dùng để kiếm tra */
     int value;
-
+    /* Duyệt đến khi nào đến ký tự \n thì ngừng */
     while ((value = va_arg(args,int)) != '\n')
     {
        sum += value;
@@ -23,6 +24,6 @@ int sum(int count,...){
 
 int main()
 {
-    printf("tong = %d\n",tong(1,2,3,0,5));
+    printf("tong = %d\n",tong(1,2,3));
     return 0;
 }

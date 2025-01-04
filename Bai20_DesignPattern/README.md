@@ -308,3 +308,121 @@ public:
 - Nhiều Observer có thể theo dõi một hoặc nhiều Subject: Nhiều Observer có thể cùng theo dõi một Subject. Điều này cho phép cùng một sự kiện trong Subject có thể ảnh hưởng đến nhiều đối tượng khác nhau. Một Observer có thể đăng ký để nhận thông báo từ nhiều Subject khác nhau, và mỗi Subject sẽ thông báo cho Observer khi có sự thay đổi liên quan.
 
 # Decorator Pattern
+Decorator Pattern là một mẫu thiết kế thuộc nhóm structural patterns, cho phép thêm các chức năng hoặc hành vi mới cho một đối tượng mà không cần thay đổi cấu trúc của lớp đối tượng đó.
+
+Mẫu này giúp mở rộng tính năng của các đối tượng bằng cách bao bọc (wrapping) chúng trong các lớp decorator đặc biệt.
+
+Các thành phần chính:
+- Lớp Sensor (Component): Đây là lớp cơ sở định nghĩa giao diện chung cho tất cả các cảm biến. Nó có một phương thức ảo readData() mà tất cả các lớp con sẽ phải cài đặt.
+```c
+class Sensor{
+public:
+    virtual void readData() = 0; // Phương thức ảo pure virtual
+};
+
+```
+
+- Lớp TemperatureSensor (Concrete Component): Đây là lớp triển khai cụ thể của Sensor, có nhiệm vụ đọc dữ liệu từ cảm biến nhiệt độ. Nó cài đặt phương thức readData() để thực hiện công việc này.
+```c
+class TemperatureSensor : public Sensor{
+public:
+    void readData() override {
+        cout << "reading temperature data: " << endl;
+    }
+};
+```
+
+- Lớp SensorDecorator (Decorator): Đây là lớp cơ sở của tất cả các decorator. Nó nhận một con trỏ Sensor và lưu trữ nó trong thuộc tính wrappedSensor. Phương thức readData() của SensorDecorator chỉ đơn giản là gọi phương thức readData() của đối tượng cảm biến mà nó bọc.
+```c
+class SensorDecorator : public Sensor{
+protected:
+    Sensor* wrappedSensor;  // Lưu trữ đối tượng cảm biến gốc
+
+public:
+    SensorDecorator(Sensor* sensor) : wrappedSensor(sensor) {}
+
+    virtual void readData() override {
+        wrappedSensor->readData();  // Chuyển tiếp gọi đến đối tượng gốc
+    }
+};
+```
+
+- Lớp LoggingSensor (Concrete Decorator): Lớp này kế thừa từ SensorDecorator và thêm tính năng ghi log vào phương thức readData(). Trước khi gọi readData() của đối tượng gốc, nó sẽ in ra dòng LOG: sensor data để báo hiệu rằng dữ liệu cảm biến đang được ghi lại.
+```c
+class LoggingSensor : public SensorDecorator{
+public:
+    LoggingSensor(Sensor* sensor) : SensorDecorator(sensor) {}
+
+    void readData() override {
+        cout << "LOG: sensor data" << endl;  // Thêm tính năng ghi log
+        SensorDecorator::readData();  // Gọi phương thức của đối tượng gốc
+    }
+};
+```
+- Lớp CheckSensor (Concrete Decorator): Lớp này cũng kế thừa từ SensorDecorator và thêm tính năng kiểm tra cảm biến vào phương thức readData(). Trước khi gọi phương thức của đối tượng cảm biến gốc, nó sẽ in ra dòng Check sensor để báo hiệu rằng cảm biến đang được kiểm tra.
+```c
+class CheckSensor : public SensorDecorator{
+public:
+    CheckSensor(Sensor* sensor) : SensorDecorator(sensor) {}
+
+    void readData() override {
+        cout << "Check sensor " << endl;  // Thêm tính năng kiểm tra
+        SensorDecorator::readData();  // Gọi phương thức của đối tượng gốc
+    }
+};
+```
+**Tóm lai**:
+- Decorator là một lớp giúp thêm tính năng cho một đối tượng mà không thay đổi mã nguồn của đối tượng đó.
+- Decorator sẽ "bọc" đối tượng gốc (gọi là Component) trong một con trỏ, và gọi các phương thức của đối tượng gốc thông qua con trỏ đó.
+- Khi bạn truyền một đối tượng vào lớp decorator, lớp decorator sẽ giữ địa chỉ của đối tượng đó trong một con trỏ (ví dụ wrappedSensor).
+- Mỗi khi bạn gọi một phương thức (ví dụ readData()) trên đối tượng decorator, phương thức đó sẽ được ủy quyền để gọi lại phương thức của đối tượng gốc thông qua con trỏ đã bọc.
+
+# Factory Pattern
+Factory Pattern là một mẫu thiết kế (design pattern) thuộc nhóm creational patterns, cung cấp một cơ chế để tạo ra các đối tượng mà không cần chỉ rõ lớp cụ thể của các đối tượng đó.
+
+Thay vì khởi tạo trực tiếp các đối tượng, Factory Pattern sử dụng một phương thức hoặc một lớp trung gian (Factory) để quyết định loại đối tượng nào sẽ được khởi tạo dựa trên tham số đầu vào hoặc logic cụ thể.
+
+Các thành phần chính:
+- Product: Lớp cơ sở (base class) hoặc interface mà các lớp con (derived class) sẽ kế thừa.
+```c
+// Product: Lớp cơ sở
+class Product {
+public:
+    virtual void use() = 0; // Giao diện chung
+    virtual ~Product() = default; // Destructor ảo đảm bảo giải phóng tài nguyên đúng cách
+};
+```
+- Concrete Product: Các lớp con cụ thể được tạo ra từ Factory.
+- Các lớp này kế thừa từ Product và triển khai các chức năng cụ thể
+```c
+// Concrete Product A
+class ConcreteProductA : public Product {
+public:
+    void use() override {
+        cout << "Using Product A" << endl;
+    }
+};
+
+// Concrete Product B
+class ConcreteProductB : public Product {
+public:
+    void use() override {
+        cout << "Using Product B" << endl;
+    }
+};
+```
+- Factory: Một class hoặc hàm đảm nhiệm việc tạo ra các đối tượng.
+```c
+// Factory: Lớp tạo đối tượng
+class Factory {
+public:
+    static Product* createProduct(const string& type) {
+        if (type == "A") {
+            return new ConcreteProductA(); // Tạo sản phẩm A
+        } else if (type == "B") {
+            return new ConcreteProductB(); // Tạo sản phẩm B
+        }
+        return nullptr; // Trường hợp không hợp lệ
+    }
+};
+```

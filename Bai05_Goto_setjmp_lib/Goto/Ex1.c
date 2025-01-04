@@ -1,55 +1,61 @@
 #include <stdio.h>
 
-int main()
+void delay(double second)
 {
-    // int option;
-
-    // menu1: 
-    // do
-    // {
-    //     printf("Menu - 1\n");
-    //     printf("1: Tao ra menu thu hai\n");
-    //     printf("2: .....\n");
-    //     printf("3:............\n");
-    //     scanf("%d",&option);
-    // }while (option!=1);
-
-    // switch (option)
-    // {
-    // case 1:
-    //     printf("Menu - 2 \n");
-    //     printf("0: Quay lai menu 1\n");
-    //     printf("1: Ket thuc chuong trinh\n");
-    //     printf("2: ...\n");
-    //     scanf("%d",&option);
-
-    //     switch (option)
-    //     {
-    //     case 0:
-    //         goto menu1;
-    //         break;
-        
-    //     default:
-    //         break;
-    //     }
-    //     break;
-    
-    // default:
-    //     break;
-    // }
-
-    int i,j;
-    while(1){
-        for(i=0;i<5;i++){
-            for(j=0;j<5;j++){
-                if(i==2 && j==3)
-                {
-                    printf("Thoat chuong trinh\n");
-                    goto thoat;
-                }
-            }
-        }
+    double start = 0;
+    while (start < second)
+    {
+        start++;
     }
-    thoat:
+    
+}
+
+// Khai báo các trạng thái đèn giao thông
+typedef enum 
+{
+    RED,
+    YELLOW,
+    GREEN
+} TrafficLightState;
+
+
+int main() {
+    
+
+    // Ban đầu, đèn giao thông ở trạng thái đỏ
+    TrafficLightState state = RED;
+
+    // Vòng lặp vô hạn để mô phỏng đèn giao thông
+    while (1) {
+        switch (state) {
+            case RED:
+                printf("RED Light\n");
+                delay(2);  // Giữ trạng thái đèn đỏ trong x giây
+                
+                // Chuyển đến trạng thái đèn vàng
+                state = GREEN;
+                goto skip_sleep;  // Nhảy qua sleep() khi chuyển trạng thái
+            case YELLOW:
+                printf("YELLOW Light\n");
+                delay(2);  // Giữ trạng thái đèn vàng trong y giây
+                
+                // Chuyển đến trạng thái đèn xanh
+                state = RED;
+                goto skip_sleep;  // Nhảy qua sleep() khi chuyển trạng thái
+            case GREEN:
+                printf("GREEN Light\n");
+                delay(2);  // Giữ trạng thái đèn xanh trong z giây
+                
+                // Chuyển đến trạng thái đèn đỏ
+                state = YELLOW;
+                goto skip_sleep;  // Nhảy qua sleep() khi chuyển trạng thái
+        }
+
+        // Nhãn để nhảy qua sleep() khi chuyển trạng thái
+        skip_sleep:;
+    }
+
     return 0;
 }
+
+
