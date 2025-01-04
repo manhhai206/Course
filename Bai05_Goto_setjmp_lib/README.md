@@ -66,7 +66,8 @@ Nếu không xài goto thì phải xài lệnh break 3 lần trong 3 vòng lặp
 ## setjmp.h
 
 setjmp.h là thư viện cho phép chúng ta nhảy từ hàm này qua hàm khác bằng cách sử dụng 2 hàm chính là :setjmp và longjmp.
-
+- Là một biến kiểu jmp_buf dùng để lưu trữ trạng thái của chương trình tại thời điểm gọi hàm setjmp.
+- Hàm longjmp được gọi để nhảy ngược lại trạng thái đã được lưu bởi setjmp.
 - Ví dụ 1:
 ```c
 #include "stdio.h"

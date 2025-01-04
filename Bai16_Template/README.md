@@ -1,7 +1,7 @@
 
 # Template
 
-Function templates là một tính năng giúp viết các function hoặc class chung có thể được sử dụng cho nhiều kiểu dữ liệu khác nhau mà không cần phải triển khai nhiều phiên bản của cùng một function hoặc class.
+Templates là một tính năng giúp viết các function hoặc class chung có thể được sử dụng cho nhiều kiểu dữ liệu khác nhau mà không cần phải triển khai nhiều phiên bản của cùng một function hoặc class.
 
 Trong quá trình biên dịch, khi sử dụng template trong C++, trình biên dịch sẽ suy luận hai kiểu dữ liệu: một cho tham số kiểu **T** và một cho **ParamType**. Các kiểu này thường khác nhau, vì ParamType thường có thêm các đặc tính như const hoặc các chỉ thị tham chiếu (& hoặc &&).
 ```

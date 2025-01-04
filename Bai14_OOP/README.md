@@ -139,7 +139,7 @@ public:
 ### Kế thừa protected và private
 
 - Khi kế thừa **protected** thì các member public, protected của class cha sẽ là protected trong class con.
-- Khi kế thừa **private** thì các member public, protected của class cha sẽ là protected trong class con.
+- Khi kế thừa **private** thì các member public, protected của class cha sẽ là privated trong class con.
 
 ### This pointer
 - Con trỏ this nằm trong class

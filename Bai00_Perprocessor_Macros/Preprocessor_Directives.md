@@ -24,7 +24,7 @@ Chỉ thị #include cho phép chúng ta đưa các tệp bên ngoài vào chư�
 
     **Ví dụ**
     ```c
-    #include <display.h> 
+    #include "display.h" 
     ```
 
 ## 2. Chỉ thị định nghĩa cho tên - Define Macro
