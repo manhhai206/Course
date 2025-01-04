@@ -2,7 +2,10 @@
 #include <string>
 
 using namespace std;
-
+/* Model: 
+ *  Lưu trữ dữ liệu và xử lý logic liên quan đến dữ liệu. 
+ *  Lớp SinhVienModel lưu trữ thông tin sinh viên như tên, tuổi và mã số sinh viên.
+ */
 class SinhVienModel{
     private:
         string name;
@@ -39,6 +42,11 @@ class SinhVienModel{
         }
 };
 
+/*
+ * View:
+ * Chịu trách nhiệm hiển thị dữ liệu cho người dùng và nhận đầu vào từ người dùng. 
+ * Lớp SinhVienView hiển thị hoặc yêu cầu thông tin sinh viên.
+ */
 class SinhVienView{
     public:
         void displayStudentInfo(const string& name, int age, const string& studentId){
@@ -63,6 +71,12 @@ class SinhVienView{
         }
 };
 
+/**
+ * Presenter: Là cầu nối giữa Model và View. 
+ * Nó xử lý logic ứng dụng và cập nhật dữ liệu từ View đến Model, hoặc lấy dữ liệu từ Model để hiển thị trên View.
+ * updateStudentInfo: Thu thập thông tin từ View và cập nhật vào Model.
+ * showStudentInfo: Lấy thông tin từ Model và hiển thị qua View.
+ */
 class SinhVienPresenter{
     private:
         SinhVienModel& model;
@@ -96,9 +110,9 @@ int main()
 
     int choice;
     do{
-        cout << "\n1. Hien thi thong tin sinh vien" << std::endl;
-        cout << "2. Cap nhat thong tin sinh vien" << std::endl;
-        cout << "3. Thoat" << std::endl;
+        cout << "\n1. Hien thi thong tin sinh vien" << endl;
+        cout << "2. Cap nhat thong tin sinh vien" << endl;
+        cout << "3. Thoat" << endl;
         cout << "Nhap lua chon: ";
         cin >> choice;
         cin.ignore(); // Bo qua ky tu newline trong buffer
@@ -124,3 +138,4 @@ int main()
 
     return 0;
 }
+

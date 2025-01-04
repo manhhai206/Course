@@ -68,7 +68,12 @@ int main() {
     Car *myCar;
 
     Toyota toyotaCar("Camry", 2023, "Hybrid");
-
+    /*************************************************
+     * Một đối tượng gọi 1 method ra thì gọi method ở
+     * class nào dựa vào đối tương trỏ đến chứ không
+     * phải đối tượng nó tạo ra
+     * 
+     ***********************************************/
     myCar = &toyotaCar;
 
     myCar->Display();

@@ -3,13 +3,18 @@
 
 using namespace std;
 
-// Abstract class
+// Lớp cơ sở (Product)
 class Sensor{
     public:
+    /*
+     * Dùng virtual function để xác định gọi method ở class nào mà
+     * đối tượng nó trỏ đến chứ không phải nó tạo ra
+     *  Pure virtual có định nghĩa bằng 0
+     */
         virtual void readData() = 0;
 };
 
-// Temperature class
+/* Concrete Product: Các lớp con cụ thể được tạo ra từ Factory */
 class TemperatureSensor : public Sensor{
     public:
         void readData() override {
@@ -17,7 +22,7 @@ class TemperatureSensor : public Sensor{
         }
 };
 
-// Humidity class
+/* Concrete Product: Các lớp con cụ thể được tạo ra từ Factory */
 class HumiditySensor : public Sensor{
     public:
         void readData() override {
@@ -25,7 +30,7 @@ class HumiditySensor : public Sensor{
         }
 };
 
-// Factory class (Creator)
+/* Factory: Một class hoặc hàm đảm nhiệm việc tạo ra các đối tượng. */
 class SensorFactory{
     public:
         static Sensor* createSensor(const string& sensorType){
@@ -45,6 +50,12 @@ class SensorFactory{
 int main(int argc, char const *argv[])
 {
     Sensor* sensor = SensorFactory::createSensor("humi");
+    /***************************************************************
+     * Thay vì khởi tạo trực tiếp các đối tượng, 
+     * Factory Pattern sử dụng một phương thức hoặc một lớp trung gian (Factory)
+     * để quyết định loại đối tượng nào sẽ được khởi tạo 
+     * dựa trên tham số đầu vào hoặc logic cụ thể.
+     *************************************************************** */
     sensor->readData();
     return 0;
 }
