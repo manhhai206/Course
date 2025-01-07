@@ -5,6 +5,7 @@ enum ErrorCodes { NO_ERROR, FILE_ERROR, NETWORK_ERROR, CALCULATION_ERROR };
 enum ErrorCodes error_code;
 
 char *error_message = NULL;
+
 jmp_buf buf;
 
 #define TRY if ((result = setjmp(buf)) == NO_ERROR)

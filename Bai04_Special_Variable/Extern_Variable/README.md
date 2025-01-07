@@ -1,5 +1,5 @@
 # Biến Extern
-- Biến được sử dụng để khai báo một biến hoặc một hàm được định nghĩa ở một tệp khác.
+- Biến được sử dụng để khai báo một biến hoặc một hàm được định nghĩa ở một module khác.
 - Nó chỉ khai báo chứ không cấp phát bộ nhớ cho biến.
 - Biến được tham chiếu phải được khai báo toàn cục và có thể nằm trong một file khác.
 

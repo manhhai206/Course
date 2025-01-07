@@ -4,33 +4,44 @@
 ## Stdarg
 Thư viện Stdarg: được dùng để viết một hàm mà số lượng đối số có thể biến đổi (variable arguments). 
 
-Ví dụ:
-```c
-#define tong(...) sum(__VA_ARGS__,'\n')
+Trong thư viện stdarg có :
 
-int sum(int count,...){
-    va_list args;
-    va_start(args,count);
+- va_list: là một kiểu dữ liệu để đại diện cho danh sách các đối số biến đổi.
 
-    int sum = count;
-    int value;
+- va_start: Bắt đầu một danh sách đối số biến đổi. Nó cần được gọi trước khi truy cập các đối số biến đổi đầu tiên.
 
-    while ((value = va_arg(args,int)) != '\n')
-    {
-       sum += value;
+- va_arg: Truy cập một đối số trong danh sách. Hàm này nhận một đối số của kiểu được xác định bởi tham số thứ hai
+
+- va_end: Kết thúc việc sử dụng danh sách đối số biến đổi. Nó cần được gọi trước khi kết thúc hàm.
+
+- Ví dụ:
+
+    ```c
+    #define tong(...) sum(__VA_ARGS__,'\n')
+
+    int sum(int count,...){
+        va_list args;
+        va_start(args,count);
+
+        int sum = count;
+        int value;
+
+        while ((value = va_arg(args,int)) != '\n')
+        {
+        sum += value;
+        }
+
+        va_end(args);
+        return sum;
+
     }
+    ```
 
-    va_end(args);
-    return sum;
+    - Kết quả:
 
-}
-```
-
-Kết quả:
-
-```c 
-tong = 10
- ```
+    ```c 
+    tong = 10
+    ```
 
 Trong thư viện stdarg có :
 
@@ -49,20 +60,20 @@ Assert: là một thư viện trong C cung cấp hàm assert để giúp chẩn 
 -   Projects quá lớn và nhiều file thì assert giúp kiểm tra nhanh tính đúng đắn của các điều kiện trong chương trình mà không cần phải in thông tin.
 -   Đối với các MCU không có khả năng hiển thị, assert có thể tạo điều kiện để phát hiện lỗi và dừng chương trình khi có vấn đề, tránh việc chương trình chạy tiếp với lỗi ngầm.
 
-```c
-#include <stdio.h>
-#include <assert.h>
+    ```c
+    #include <stdio.h>
+    #include <assert.h>
 
-int main() {
-    int x = 10;
+    int main() {
+        int x = 10;
 
-    assert(x != 10);
+        assert(x != 10);
 
-    // Chương trình sẽ tiếp tục thực thi nếu điều kiện là đúng.
-    printf("x = %d", x);
-    
-    return 0;
-}
-```
+        // Chương trình sẽ tiếp tục thực thi nếu điều kiện là đúng.
+        printf("x = %d", x);
+        
+        return 0;
+    }
+    ```
 
-Ví dụ trên thì khi x = 10 và vô hàm assert thì không đáp ứng đúng điều kiện thì sẽ bị dừng chương trình luôn.
+    Ví dụ trên thì khi x = 10 và vô hàm assert thì không đáp ứng đúng điều kiện thì sẽ bị dừng chương trình luôn.
