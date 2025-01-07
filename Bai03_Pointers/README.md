@@ -159,6 +159,7 @@ Con trỏ hàm dùng để tham chiếu 1 hàm thay vì tham chiếu các giá t
 ![](https://media.geeksforgeeks.org/wp-content/uploads/20230412184414/double-pointers-in-c.webp)
 
 Con trỏ đến con trỏ là một kiểu dữ liệu cho phép lưu trữ địa chỉ của một con trỏ. Cho phép bạn thay đổi giá trị của con trỏ bằng  địa chỉ của một con trỏ khác.
+
     ```c
     #include <stdio.h>
 
