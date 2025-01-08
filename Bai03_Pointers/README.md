@@ -2,9 +2,9 @@
 # **Bài 3 Pointer**
 ## *Khái niệm về con trỏ*
 
-Con trỏ là 1 biến chứa địa chỉ bộ nhớ của một đối tượng khác.
+- Con trỏ là 1 biến chứa địa chỉ bộ nhớ của một đối tượng khác.
 
-Đối tượng này có thể là biến hàm mảng hay là cả 1 con trỏ khác.
+- Đối tượng này có thể là biến hàm mảng hay là cả 1 con trỏ khác.
 
 ![](https://daynhauhoc.s3.dualstack.ap-southeast-1.amazonaws.com/original/3X/1/7/171d3190d623c6323f6343374a0b570f824e7301.png)
 
