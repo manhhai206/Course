@@ -4,6 +4,7 @@
 ## Goto
 - Định nghĩa goto là từ khóa cho phép chương trình nhảy đến 1 lable.
 - Lable phải đặt nội bộ ở trong hàm.Từ khóa goto cung cấp khả năng kiếm soát luồng chạy của chương trình.
+- 
 - Ví dụ:
     ```c
     int main() {
