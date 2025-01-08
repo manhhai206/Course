@@ -27,8 +27,8 @@
         return 0;
     }
     ```
-    - Kkhi i chưa thỏa điều kiện >=5 thì bỏ qua if đầu tiên thực thi các lệnh bên dưới.
-    - Khi thỏa điều kiện thực hiện lệnh `goto end` thì lập tức nhảy đến lable end.
+    - Khi i chưa thỏa điều kiện `>=5` thì bỏ qua if đầu tiên thực thi các lệnh bên dưới.
+    - Khi thỏa điều kiện thực hiện lệnh `goto end` thì lập tức nhảy đến lable `end`.
 
 - Goto thường được sử dụng trong các vấn đề như thoát khỏi vòng lặp
     ```c

@@ -2,7 +2,9 @@
 # **Bài 3 Pointer**
 ## *Khái niệm về con trỏ*
 
-Con trỏ là 1 biến chứa địa chỉ bộ nhớ của một đối tượng khác. Đối tượng này có thể là biến hàm mảng hay là cả 1 con trỏ khác.
+Con trỏ là 1 biến chứa địa chỉ bộ nhớ của một đối tượng khác.
+
+Đối tượng này có thể là biến hàm mảng hay là cả 1 con trỏ khác.
 
 ![](https://daynhauhoc.s3.dualstack.ap-southeast-1.amazonaws.com/original/3X/1/7/171d3190d623c6323f6343374a0b570f824e7301.png)
 
@@ -25,7 +27,7 @@ Con trỏ là 1 biến chứa địa chỉ bộ nhớ của một đối tượn
     int b = *ptr ;
     ```
 
-    - Kích thước của con trỏ phụ thuộc vào kiến trúc máy tính và trình biên dịch:
+    - Kích thước của con trỏ phụ thuộc vào kiến trúc máy tính và trình biên dịch:MCU sẽ là 4 bit còn x64 là 8bit
 
     ```c
     #include <stdio.h>
@@ -157,6 +159,7 @@ Con trỏ hàm dùng để tham chiếu 1 hàm thay vì tham chiếu các giá t
 ![](https://media.geeksforgeeks.org/wp-content/uploads/20230412184414/double-pointers-in-c.webp)
 
 Con trỏ đến con trỏ là một kiểu dữ liệu cho phép lưu trữ địa chỉ của một con trỏ. Cho phép bạn thay đổi giá trị của con trỏ bằng  địa chỉ của một con trỏ khác.
+
     ```c
     #include <stdio.h>
 
