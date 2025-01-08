@@ -1,7 +1,7 @@
 
 # Class
 
-Class được sử dụng để định nghĩa 1 lớp, là 1 cấu trúc dữ liệu tuwjd định nghĩa có thể chứa dữ liệu và các hàm liên quan.
+Class được sử dụng để định nghĩa 1 lớp, là 1 cấu trúc dữ liệu tự định nghĩa có thể chứa dữ liệu và các hàm liên quan.
 
 Các biến được khai báo trong Class được gọi là **thuộc tính(property)**, còn các hàm trong Class thì được gọi là **phương thức(method)**
 
@@ -26,7 +26,9 @@ int main(){
 ```
 
 ## Constructer
-Được coi là một hàm khởi tạo giá trị cho các property, có tên trùng với tên class, tự động khởi tạo giá trị cụ thể được set.
+- Constructor: là một phương thức đặc biệt của một class, được gọi khi một đối tượng của lớp đó được tạo ra. Constructor thường được sử dụng để khởi tạo các biến thành viên của đối tượng và thực hiện các công việc khởi tạo khác.
+- Trong C++, constructor có tên giống với tên của lớp và không có kiểu trả về. Constructor có thể có hoặc không có tham số. Nếu một lớp không định nghĩa constructor, C++ sẽ tự động tạo một constructor mặc định (default constructor) không nhận tham số.
+
 ```c
 class HinhChuNhat {
 
