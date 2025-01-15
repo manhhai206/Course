@@ -1,0 +1,229 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc} 
+\usepackage{vietnam} 
+\usepackage{graphicx} 
+\usepackage{amsmath} 
+\usepackage{fancyhdr}
+\usepackage{titlesec}  
+
+\titlespacing*{\chapter}{0pt}{-10pt}{20pt} 
+
+% Customize chapter titles to include a colon
+\titleformat{\chapter}[hang]
+  {\normalfont\huge\bfseries}
+  {Chapter \thechapter:}{1em}{}
+
+\titlespacing*{\chapter}{0pt}{-10pt}{20pt} 
+
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{0.5in}
+
+    {\Large Posts and Telecommunications Institute of Technology}\\
+    \vspace{0.5in}  
+
+    {\Large \textbf{Breath Guardians}}\\
+    \vspace{1in}
+    
+    {\LARGE \textbf{Development of an AIoT System for Portable Sleep Apnea Monitoring}}\\
+    \vspace{1.5in}
+       
+
+    {\large \textbf{Group Members:}} \\
+    Nguyễn Đăng Khoa, Trần Trọng Phúc, Hồ Trường Giang, Mạnh Trọng Hải, Hà Xuân Thanh\\
+    \vspace{0.5in}
+    
+    {\large \textbf{Supervisor:}} \\
+    TS. Nguyễn Trọng Kiên\\
+    \vspace{0.5in}
+    
+    {\large Submitted: November 7, 2024}
+    
+\end{titlepage}
+
+% Summary
+\renewcommand{\chaptername}{Chapter} 
+\chapter*{Summary}
+
+\vspace{-1em} 
+This project focuses on developing a mobile sleep apnea monitoring system using AIoT (Artificial Intelligence of Things) technology to support the diagnosis and monitoring of sleep apnea for users. Sleep apnea is a common disorder that can lead to severe health issues if not detected and treated in time. However, current medical devices used for diagnosing sleep apnea are expensive and not easily accessible, especially for those who cannot visit professional medical facilities.
+\vspace{0.1in}
+
+The goal of this project is to develop an easy-to-use, cost-effective system that can monitor crucial factors such as breathing rate and oxygen saturation (SpO2) to detect sleep apnea early. This system utilizes mobile sensors and AI methods, including machine learning models, to analyze and detect apnea events in real-time. As a result, the system not only helps users monitor their health at home but also allows doctors to remotely track patients, reducing healthcare costs and enhancing convenience.
+\vspace{0.1in}
+
+In the research process, we have outlined various approaches for data collection and processing of breathing and SpO2 data from sensors. The system also applies AI algorithms to analyze the collected data, providing conclusions about the likelihood of sleep apnea events. The next steps in development will focus on optimizing the system to ensure accuracy and effectiveness in real-world environments.
+\vspace{0.1in}
+
+The main result of this research is a prototype monitoring system capable of automatically collecting, analyzing, and providing information about signs of sleep apnea, enabling users and doctors to detect sleep-related issues in a timely manner. This project not only improves the diagnosis of sleep apnea but also helps reduce health risks and enhances the quality of life for users. The overall conclusion of this work is that applying IoT and AI technology to healthcare has great potential to improve sleep apnea monitoring and treatment methods.
+
+% Loại bỏ số trang cho trang Summary
+\thispagestyle{empty} 
+
+\newpage
+
+% Phần Mục lục
+\renewcommand{\contentsname}{Table of contents}
+\tableofcontents % Tạo mục lục tự động
+\thispagestyle{empty} % Đặt trang mục lục không có số trang
+\clearpage % Bắt đầu trang mới sau mục lục (nếu cần)
+
+
+
+% Chuyển sang phần Giới thiệu (Introduction)
+\newpage
+
+% Đặt lại số trang từ 1 cho phần Introduction
+\setcounter{page}{1}
+
+% Đánh số trang từ phần Introduction trở đi
+\pagestyle{plain}  % Hiển thị số trang từ đây
+
+\chapter{Introduction}
+
+In recent years, the increasing prevalence of sleep apnea has become a major concern, leading to numerous health complications. Sleep apnea is a disorder in which a person experiences abnormal pauses in breathing during sleep, often without being aware of it. These interruptions can lead to various health issues such as hypertension, cardiovascular disease, and even stroke if left untreated.
+\vspace{0.1in}
+
+Traditional methods for diagnosing sleep apnea often involve complex procedures that require visiting specialized medical centers and undergoing sleep studies, which can be costly and inconvenient for patients. To address these challenges, there has been growing interest in developing portable and cost-effective systems that allow individuals to monitor their sleep conditions at home. This project aims to leverage Artificial Intelligence of Things (AIoT) technology to create a portable, affordable, and user-friendly system for monitoring sleep apnea and providing real-time analysis.
+\vspace{0.1in}
+
+The system will use mobile sensors to monitor key physiological signals such as respiratory rate and oxygen saturation levels (SpO2), combined with AI algorithms for detecting sleep apnea episodes. The goal is to provide a convenient and reliable way for individuals to monitor their sleep patterns and detect early signs of sleep apnea, while also offering healthcare professionals a tool to remotely track and assess their patients' conditions.
+
+% Bắt đầu phần Nội dung chính (Body of the Report)
+\renewcommand{\chaptername}{Chapter} 
+\chapter{Body of the Report}
+
+\section{Wearable Apnea Detection (WAD)}
+\label{sec}
+The Wearable Apnea Detection (WAD) device is designed to monitor diaphragm contractions and breathing patterns in real-time. It uses advanced sensors to detect subtle movements and contractions associated with breathing, enabling the detection of irregularities indicative of sleep apnea episodes. By continuously measuring diaphragm contractions, WAD provides critical data to identify potential signs of sleep apnea without requiring extensive user intervention. This compact, lightweight, and comfortable wearable device is designed for all-night use, ensuring minimal disruption during sleep.
+
+\subsection{Theoretical Foundations and Research}
+\label{subsec}
+
+\paragraph{FFT (Fast Fourier Transform)}
+The Fast Fourier Transform (FFT) is applied in this project to analyze the frequency domain of sensor data, particularly from the accelerometer of the MPU6050 sensor. FFT transforms the time-domain signal into the frequency domain, which helps identify respiratory patterns such as breathing rates and abnormal signals that may indicate sleep apnea episodes. By isolating relevant frequencies from the sensor data, FFT enables more precise detection of these irregularities.
+
+\paragraph{TensorFlow Lite}
+TensorFlow Lite is used to deploy machine learning models for real-time inference on the ESP32 microcontroller. In this project, TensorFlow Lite is employed to classify breathing patterns based on features extracted from sensor data. With TensorFlow Lite, the device can predict whether the user is experiencing normal breathing or an apnea event without needing a powerful server, enabling real-time, independent operation.
+
+\subsubsection{Breathing Rates and Respiratory Indicators}
+Studies on normal adult breathing rates suggest that the typical range for an adult's breathing rate is between 12 and 20 breaths per minute. Abnormal patterns, such as irregular or shallow breathing, are indicative of sleep apnea, which can be detected by monitoring the breathing cycles with the wearable device. The MPU6050 accelerometer captures subtle diaphragm movements, crucial for identifying variations in breathing patterns.
+
+\subsection{Practical Research}
+\paragraph{MPU6050 Sensor}
+The MPU6050 sensor, which combines an accelerometer and a gyroscope, collects data related to body movements, specifically diaphragm motion, which is key to identifying breathing patterns. The accelerometer provides data for the X, Y, and Z axes (aX, aY, aZ), while the gyroscope captures rotational data (gX, gY, gZ). These signals are processed to identify respiratory pattern variations.
+
+\paragraph{AI Model}
+In this approach, an AI model is trained using accelerometer and gyroscope data from the MPU6050 sensor. The model is refined with labeled data to classify breathing states, such as normal breathing or apnea events.
+
+\subsection{Hardware and Software Design}
+\paragraph{ESP32 and Sensors}
+The ESP32 microcontroller is chosen for its powerful processing capabilities, built-in Wi-Fi, and support for machine learning via TensorFlow Lite.
+
+\paragraph{Classification Algorithm}
+The classification algorithm in this project relies on a TensorFlow Lite model. The accelerometer data is pre-processed to extract features, which are then fed into the TensorFlow Lite model for real-time predictions of the user's breathing state. The model is trained on a dataset with labeled breathing patterns, and inference is performed locally on the ESP32, allowing classification without external connectivity.
+
+\paragraph{Breathing Pattern Analysis and Prediction}
+After processing, the TensorFlow Lite model classifies the breathing pattern based on extracted features. It predicts whether the user is experiencing normal breathing or an apnea event. The system can then send notifications or store data for further analysis.
+
+\paragraph{MQTT and Firebase Integration}
+To enable real-time data transmission, the system uses the MQTT protocol to send data to a cloud server for processing and storage. The data is formatted as JSON and transmitted via Wi-Fi using the ESP32’s built-in capabilities. Firebase stores the data, which can later be accessed for further analysis or to monitor the user’s breathing patterns over time.
+
+\section{BPM-O2 Measuring (BOM)}
+\label{subsec:bom}
+The BPM-O2 Measuring (BOM) device monitors blood oxygen saturation (SpO2) and heart rate in real-time, providing insights into cardiovascular health. Using non-invasive sensors, it measures oxygen levels and pulse rate, key indicators of respiratory and cardiovascular function. Continuous monitoring is especially important for individuals with respiratory conditions, like sleep apnea or heart disease.
+\subsection{Theoretical Foundations and Research}
+\label{subsec:theoretical_foundations_bom}
+\subsubsection{SpO2 and Heart Rate Monitoring}
+Blood oxygen saturation (SpO2) is a measure of how much oxygen the blood is carrying as a percentage of the maximum it could carry. A normal SpO2 level typically ranges between 95-100%. SpO2 levels below 90% are considered low and may indicate a medical emergency, especially in individuals with respiratory conditions. The heart rate, measured in beats per minute (BPM), is another key indicator of cardiovascular health. A normal resting heart rate for adults is between 60-100 BPM, and deviations from this range can signify health issues, such as arrhythmia or heart disease.
+
+\subsubsection{Principles of SpO2 Measurement}
+SpO2 is commonly measured using a pulse oximeter, a non-invasive device that uses light absorption to determine the oxygen saturation in the blood. The device typically emits red and infrared light through a part of the body, such as a fingertip or earlobe. The light absorption patterns are used to calculate the ratio of oxygenated to deoxygenated hemoglobin in the blood, providing an accurate estimate of SpO2 levels. In addition to SpO2, pulse oximeters can also measure heart rate by detecting the periodic changes in light absorption caused by the pulsation of arterial blood.
+
+\subsection{Practical Research}
+\label{subsec:practical_research_bom}
+\subsubsection{Sensor Integration and Accuracy}
+The BOM device typically uses optical sensors, such as photodiodes and LEDs, to detect changes in light absorption caused by the pulsation of blood in capillaries. The MAX30105 sensor, used in this project, is a highly efficient pulse oximeter and heart rate sensor that integrates an optical photodetector with red and infrared LEDs. While these sensors are effective for continuous, real-time monitoring, ensuring accurate measurements can be challenging due to external factors such as motion artifacts, skin pigmentation, and ambient light. To improve accuracy, the device needs to incorporate signal processing techniques, such as noise filtering and calibration algorithms, to account for these variables.
+
+\subsubsection{Data Processing and Algorithmic Solutions}
+The data from the sensors are processed to extract the SpO2 and heart rate values. In this system, Fast Fourier Transform (FFT) is applied to convert the sensor data into the frequency domain, allowing for the extraction of pulse rate from the periodic variations in light absorption. Additionally, signal processing algorithms are implemented to enhance the signal-to-noise ratio and improve the accuracy of the measurements. Further refinement can be achieved through machine learning models that predict SpO2 and heart rate more reliably, especially in challenging conditions such as poor sensor contact or movement.
+
+\subsection{System Design }
+\label{subsec:system_design_bom}
+The BPM-O2 device is typically designed as a small, portable unit that can be easily worn or attached to a fingertip or earlobe. It is equipped with a microcontroller, such as the ESP32, which is connected to the MAX30105 sensor to collect data from the sensors and process the measurements in real-time. The device may feature a display to show the current SpO2 and heart rate readings, as well as a wireless communication module (e.g., Bluetooth, Wi-Fi) to transmit data to a smartphone or cloud server for further analysis. The ESP32's processing capabilities allow for FFT-based algorithms to be run directly on the device for real-time pulse rate and SpO2 analysis.
+
+\section{Mobile App (MO-APP)}
+\label{sec:moapp}
+The Mobile App (MO-APP) provides a user-friendly interface for monitoring various health parameters in real-time. It is designed to display critical data such as SpO2 levels, heart rate, and respiratory patterns, providing users with a comprehensive view of their health status. The app enables users to access their health metrics on both mobile devices and computer screens, ensuring continuous tracking and easy access to the data.
+
+\subsection{Real-Time Monitoring and Data Display}
+\label{subsec:real_time_monitoring}
+The MO-APP allows users to view real-time data streamed from wearable devices such as the Wearable Apnea Detection (WAD) and BPM-O2 Measuring (BOM) devices. These wearable sensors send their data to the app via wireless communication protocols such as Wi-Fi or Bluetooth. The app processes and visualizes the data, offering easy-to-understand graphs and indicators of health metrics. 
+
+For example, the app will display real-time graphs of the user's SpO2 levels, heart rate, and detected breathing patterns, allowing users to monitor any changes or irregularities immediately. The data is updated regularly, ensuring users always have up-to-date information about their health status.
+
+\subsection{User Interface and Design}
+\label{subsec:user_interface}
+The app is designed with a clean and intuitive interface, focusing on ease of use. Key health parameters are displayed prominently, with clear visual representations of the data, including numerical values and graphs. Users can select different views to monitor various parameters at once, or drill down to focus on specific metrics. 
+
+The app's dashboard provides an overview of the user's health status, with easy-to-read color codes indicating normal or abnormal values. In addition, users can receive alerts or notifications if any monitored parameters, such as SpO2 or heart rate, fall outside of the normal range.
+
+\subsection{Data Synchronization and Cloud Integration}
+\label{subsec:data_sync}
+The MO-APP synchronizes data with cloud services to store historical data securely. This integration allows users to track their health metrics over time and view trends in their data. The app supports cloud-based storage for easy data retrieval and sharing, enabling users to share their health data with healthcare professionals for remote monitoring.
+
+The synchronization ensures that data is always backed up and accessible from multiple devices, such as smartphones, tablets, or computers, without the risk of losing critical health information. Cloud integration also allows for long-term analysis and trend monitoring, helping users and their healthcare providers make informed decisions about their health management.
+
+\subsection{Mobile App for Multiple Platforms}
+\label{subsec:multiple_platforms}
+The MO-APP is available on both Android and iOS platforms, ensuring accessibility to a wide range of users. It is optimized for mobile devices but can also be accessed on computers with a web version of the app. This multi-platform support provides flexibility, enabling users to monitor their health anytime, anywhere, whether they are at home or on the go.
+
+\subsection{Real-Time Notifications and Alerts}
+\label{subsec:real_time_alerts}
+In case of abnormal readings or significant changes in health parameters, the MO-APP provides real-time notifications or alerts. For example, if the SpO2 level drops below a critical threshold or the heart rate becomes irregular, the app will send an immediate alert to the user’s mobile device. This feature ensures that users are always aware of potential health risks and can take necessary actions promptly.
+
+The app’s alert system can be customized to set individual thresholds for different parameters, giving users control over the types of alerts they receive. Notifications are designed to be non-intrusive yet timely, allowing users to respond to changes in their health without feeling overwhelmed by excessive alerts.
+
+\subsection{Integration with Health Management Systems}
+\label{subsec:integration}
+The MO-APP is designed to integrate with other health management systems, such as Electronic Health Records (EHR) or healthcare apps. This integration allows users to keep a comprehensive record of their health metrics, which can be shared with healthcare providers for better medical decisions. The ability to integrate with other platforms ensures that the app is not just a standalone tool but a part of a larger ecosystem for health monitoring and management.
+
+\chapter{Conclusion}
+\label{sec:conclusion}
+
+This project set out to develop a wearable device for detecting sleep apnea and monitoring essential health parameters, specifically SpO2 levels and heart rate. Through the successful integration of sensors and the application of real-time data processing techniques, the system has achieved its primary aim. By analyzing diaphragm movements with the MPU6050 sensor and measuring SpO2 and heart rate with the MAX30105 sensor, the device can detect irregular breathing patterns indicative of apnea episodes. 
+\vspace{0.1in}
+Key findings of this project include the effective use of Fast Fourier Transform (FFT) and machine learning to analyze and classify respiratory patterns. The TensorFlow Lite model implemented on the ESP32 microcontroller allows for real-time inference, accurately distinguishing between normal breathing and apnea events without relying on external servers. The mobile application enhances the user experience by providing real-time monitoring and easy access to health metrics on mobile devices or computers, thus making health data readily available for users.
+\vspace{0.1in}
+The major outcomes of this investigation demonstrate the potential of wearable technology in early detection of sleep apnea and in providing continuous health monitoring. This device offers a cost-effective, accessible solution for individuals at risk of sleep apnea, supporting early intervention and long-term health management. 
+\vspace{0.1in}
+In summary, this project achieved its aim of developing a reliable and user-friendly wearable device for apnea detection and vital sign monitoring, contributing valuable insights to the field of personal health monitoring and opening opportunities for further advancements in wearable healthcare technology.
+
+\chapter{Appedices}
+\label{sec:appedices}
+
+
+
+\begin{thebibliography}{99}
+
+\bibitem{sensor}
+InvenSense, \emph{MPU6050 Sensor}, Available at: \url{https://invensense.tdk.com/products/motion-tracking/6-axis/mpu-6050/}.
+
+\bibitem{tensorflow}
+TensorFlow Developers, \emph{TensorFlow Lite Documentation}, Available at: \url{https://www.tensorflow.org/lite}.
+
+\bibitem{sleep_apnea}
+American Academy of Sleep Medicine, \emph{Sleep Apnea Overview}, 2014, Available at: \url{https://aasm.org/resources/factsheets/sleepapnea.pdf}.
+
+\bibitem{fft}
+Brigham, E. O., \emph{The Fast Fourier Transform and Its Applications}, Prentice-Hall, 1988.
+
+\end{thebibliography}
+
+
+
+\end{document}
+
