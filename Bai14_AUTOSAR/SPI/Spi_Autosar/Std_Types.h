@@ -33,8 +33,8 @@
  * @brief Định nghĩa các trạng thái logic cao và thấp
  * @details Được sử dụng cho các tín hiệu đầu vào/đầu ra
  * **********************************************************/
-#define STD_HIGH    1   /**<Trạng thái logic cao */
-#define STD_LOW     0   /**<Trạng thái logic thấp */
+#define STD_HIGH    0x01U   /**<Trạng thái logic cao */
+#define STD_LOW     0X00U   /**<Trạng thái logic thấp */
 
 /* ============================================
  * Null Pointer Definitions
@@ -86,11 +86,11 @@ typedef uint8 Std_ReturnType;
 typedef uint8 boolean;
 
 #ifndef TRUE
-    #define TRUE        1U /**<Giá trị Boolean TRUE */
+    #define TRUE        0x01U /**<Giá trị Boolean TRUE */
 #endif
 
 #ifndef FALSE
-    #define FALSE       0U /**<Giá trị Boolean FALSE */
+    #define FALSE       0x00U /**<Giá trị Boolean FALSE */
 #endif
 
 /* ============================================

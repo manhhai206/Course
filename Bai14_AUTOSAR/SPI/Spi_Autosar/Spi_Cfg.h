@@ -2,7 +2,7 @@
 #define SPI_CFG_H
 
 #include "Spi_Types.h"
-//#include "Spi_Hw.h"
+
 
 /*******************************************************************
  * @section Định nghĩa các kênh SPI
@@ -35,11 +35,17 @@
 typedef struct 
 {
     Spi_ChannelType Channel;    /**<Kênh SPI được dùng cho Job */
-    uint32_t BaudRate;          /**<Tốc độ Baudrate được dùng cho Job */
+    uint32 BaudRate;          /**<Tốc độ Baudrate được dùng cho Job */
     uint8 CPOL;                 /**<Cực tính Clock */
     uint8 CPHA;                 /**<Pha Clock */
-    uint8 Mode;                 /**<Chế độ Master hoặc Slave */
+    uint8 Mode;               /**<Chế độ Master hoặc Slave */
+		uint8* DataBuffer;
 } Spi_JobConfigType;
+
+#define SPI_JOB_MAX 4  // Giới hạn số lượng job, có thể thay đổi tùy theo ứng dụng
+
+// Khai báo mảng chứa các job
+Spi_JobConfigType Spi_jobs[SPI_JOB_MAX];
 
 /*******************************************************************
  * @section Cấu hình chi tiết cho từng Job
@@ -58,13 +64,22 @@ const Spi_JobConfigType Spi_Job_Config_Read_Sensor = {
 /*******************************************************************
  * @section Cấu hình Sequence SPI
  * Các Sequence xác định chuỗi các Job sẽ được thực thi theo thứ tự
- ******************************************************************* */
-typedef struct 
-{
-    Spi_JobType Job[2];     /**< Danh sách các Job trong Sequence */
-    uint8 JobCount;         /**< Số lượng Job trong Sequence */
-}Spi_SequenceConfigType;
+ *******************************************************************/
+#define SPI_SEQUENCE_MAX 2
 
+typedef struct {
+    Spi_JobType* Jobs;   /**< Danh sách các Job trong Sequence */
+    uint8 JobCount;      /**< Số lượng Job trong Sequence */
+} Spi_SequenceConfigType;
+
+// Khai báo mảng chứa cấu hình cho các Sequence
+Spi_SequenceConfigType Spi_Sequences[SPI_SEQUENCE_MAX];
+
+
+#define SPI_JOB_MAX 4  // Giới hạn số lượng job, có thể thay đổi tùy theo ứng dụng
+
+// Khai báo mảng chứa các job
+Spi_JobConfigType Spi_jobs[SPI_JOB_MAX];
 
 
 #endif /* SPI_CFG_H */
