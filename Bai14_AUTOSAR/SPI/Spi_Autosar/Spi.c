@@ -5,6 +5,19 @@ static Spi_StatusType SpiStatus = SPI_UNINIT;
 static Spi_JobResultType JobResult = SPI_JOB_OK;
 static Spi_SeqResultType SeqResult = SPI_SEQ_OK;
 
+// Define the arrays here
+const Spi_SequenceConfigType Spi_Sequences[] = {
+    SpiSequenceConfig_0,  // Define these sequences as you have done
+    SpiSequenceConfig_1,
+    SpiSequenceConfig_2
+};
+
+const Spi_JobConfigType Spi_jobs[] = {
+    SpiJobConfig_ReadSensor,  // Define these jobs as you have done
+    SpiJobConfig_WriteEEPROM,
+    SpiJobConfig_ReadEEPROM
+};
+
 
 /******************************************************************
 * @brief Khởi tạo SPI Handle/Driver với cấu hình đã cho
@@ -18,8 +31,8 @@ void Spi_Init (const Spi_ConfigType* ConfigPtr){
        return; /* Không khởi tạo nếu không có cấu hình*/
    }
 
-//    /* Thiết lập các giá trị mặc định nếu chưa được cấu hình */
-//    Spi_SetupDefaultConfig((Spi_ConfigType*)ConfigPtr);
+   /* Thiết lập các giá trị mặc định nếu chưa được cấu hình */
+   Spi_SetupDefaultConfig((Spi_ConfigType*)ConfigPtr);
 
    /* Khởi tạo và kích hoạt phần cứng SPI1 hoặc SPI2*/
    if(ConfigPtr->Channel ==  SPI_CHANNEL_1){
@@ -123,7 +136,7 @@ Std_ReturnType Spi_AsyncTransmit (Spi_SequenceType Sequence){
    }
 
    //Kiểm tra nếu Sequence vượt giới hạn hoặc không tồn tại
-   if(Sequence >= SPI_SEQUENCE_MAX){
+   if(Sequence >= 4){
        return E_NOT_OK;  //Sequence không hợp lệ
    } 
 
@@ -263,9 +276,8 @@ Std_ReturnType Spi_SetupEB (Spi_ChannelType Channel, const Spi_DataBufferType* S
           // trả về lỗi
           return E_NOT_OK;
       }
-
-      return E_OK; /* Thành công */
   }
+	 return E_OK; /* Thành công */
 }
 
 
@@ -295,152 +307,193 @@ Spi_StatusType Spi_GetStatus (void){
 }
 
 
-///******************************************************************
-//* @brief Lấy kết quả của 1 job SPI
-//* @param[in] Job ID của 1 job
-//* @details Hàm này trả về kết quả của 1 job được truyền
-//* @return Kết quả Job (SPI_JOB_OK, SPI_JOB_PEDDING, SPI_JOB_FAILED)
-//**************************************************************** */
-//Spi_JobResultType Spi_GetJobResult (Spi_JobType Job){
-//   //Kiểm tra trạng thái SPI
-//   if(SpiStatus == SPI_UNINIT){
-//       return SPI_JOB_FAILED;
-//   }
+/******************************************************************
+* @brief Lấy kết quả của 1 job SPI
+* @param[in] Job ID của 1 job
+* @details Hàm này trả về kết quả của 1 job được truyền
+* @return Kết quả Job (SPI_JOB_OK, SPI_JOB_PEDING, SPI_JOB_FAILED)
+**************************************************************** */
+Spi_JobResultType Spi_GetJobResult (Spi_JobType Job){
+   //Kiểm tra trạng thái SPI
+   if(SpiStatus == SPI_UNINIT){
+       return SPI_JOB_FAILED;
+   }
 
-//   //Dựa trên Job đang thực hiện
-//   if(Job == SPI_JOB_READ_TEMP_SENSOR){
-//       //Kiểm tra trạng thái của Job trên SPI1
-//       return Spi_Hw_CheckJobStatus_SPI1();
-//   } else if (Job == SPI_JOB_READ_EEPROM || Job == SPI_JOB_WRITE_EEPROM){
-//       //Kiểm tra trạng thái của Job trên SPI2
-//       return Spi_Hw_CheckJobStatus_SPI2();
-//   } else {
-//       return SPI_JOB_FAILED;
-//   }
+   //Dựa trên Job đang thực hiện
+   if(Job == SPI_JOB_READ_TEMP_SENSOR){
+       //Kiểm tra trạng thái của Job trên SPI1
+       return Spi_Hw_CheckJobStatus_SPI1();
+   } else if (Job == SPI_JOB_READ_EEPROM || Job == SPI_JOB_WRITE_EEPROM){
+       //Kiểm tra trạng thái của Job trên SPI2
+       return Spi_Hw_CheckJobStatus_SPI2();
+   } else {
+       return SPI_JOB_FAILED;
+   }
+}
+
+
+/******************************************************************
+* @brief Lấy kết quả của 1 Sequence SPI
+* @param[in] Sequence ID của 1 seq
+* @details Hàm này trả về kết quả của 1 sequence được truyền
+* @return Kết quả Sequence (SPI_SEQ_OK, SPI_SEQ_PEDDING, SPI_SEQ_FAILED)
+**************************************************************** */
+Spi_SeqResultType Spi_GetSequenceResult (Spi_SequenceType Sequence){
+   //Kiểm tra trạng thái SPI
+   if(SpiStatus == SPI_UNINIT){
+       return SPI_SEQ_FAILED;
+   }
+
+   //Dựa trên Sequence đang thực hiện
+   if(Sequence == SPI_SEQUENCE_0){
+       //Kiểm tra trạng thái của sequence trên SPI1
+       return Spi_Hw_CheckSequenceStatus_SPI1();
+   } else if (Sequence == SPI_SEQUENCE_1 || Sequence == SPI_SEQUENCE_2){
+       //Kiểm tra trạng thái của Sequence trên SPI2
+       return Spi_Hw_CheckSequenceStatus_SPI2();
+   } else {
+       return SPI_SEQ_FAILED;
+   }   
+}
+
+
+/******************************************************************
+* @brief Lấy thông tin phiên bản của SPI Handle/Driver
+* @param[in] versioninfo trỏ tới cấu trúc phiên bản
+* @details Hàm này trả về thông tin phiên bản bao gồm
+*          vendorID, moduleID và các phiên bản phần mềm
+**************************************************************** */
+void Spi_GetVersionInfo(Std_VersionInfoType* versioninfo){
+   //Kiểm tra con trỏ versioninfo
+   if(versioninfo == NULL){
+       return;
+   }
+
+   // Gán thông tin vendorID và moduleID
+   versioninfo->vendorID = 1;
+   versioninfo->moduleID = 123;
+   
+   //Gán các thông tin phiên bản phần mềm
+   versioninfo->sw_major_version = 1;
+   versioninfo->sw_minor_version = 0;
+   versioninfo->sw_patch_version = 0;
+}
+
+/******************************************************************
+* @brief Truyền dữ liệu đồng bộ qua cổng SPI
+* @param[in] Sequence ID của seq cần truyền
+* @details Truyền dữ liệu đồng bộ qua SequenceSPI, đợi quá trình 
+*          truyền hoàn thành.
+* @return E_OK thành công, E_NOT_OK nếu có lỗi
+**************************************************************** */
+Std_ReturnType Spi_SyncTransmit(Spi_SequenceType Sequence){
+   //Kiểm tra trạng thái SPI
+   if(SpiStatus == SPI_UNINIT){
+       return E_NOT_OK; //SPI chưa được khởi tạo
+   }
+
+   //Gọi hàm truyền không đồng bộ trước để quá trình bắt đầu truyền
+   Std_ReturnType result = Spi_AsyncTransmit(Sequence);
+   if(result != E_OK){
+       return E_NOT_OK; //Nếu không thể truyền đồng bộ thì bị lỗi
+   }
+
+   //Đợi cho đến khi các Job trong Sequence được hoàn tất
+   Spi_SeqResultType seqResult;
+   do{
+       seqResult = Spi_GetSequenceResult(Sequence);
+   } while (seqResult == SPI_SEQ_PENDING); //Tiếp tục đợi nếu Sequence vẫn đang thực hiện
+
+   //Kiểm tra kết quả cuối cùng của Sequence
+   if(seqResult == SPI_SEQ_OK){
+       return E_OK; //Truyền động bộ thành công
+   } else {
+       return E_NOT_OK; //Truyền đồng bộ không thành công
+   }
+}
+
+
+/******************************************************************
+* @brief Lấy trạng thái đơn vị phần cứng của SPI
+* @details Truyền dữ liệu đồng bộ qua SequenceSPI, đợi quá trình 
+*          truyền hoàn thành.
+* @return Trạng thái hiện tại của phần cứng (SPI_BUSY, SPI_IDLE)
+**************************************************************** */
+Spi_StatusType  Spi_GetHWUnitStatus(void){
+   //Kiểm tra trạng thái phần cứng của SPI1
+       //Kiểm tra trạng thái của SPI1
+   if(Spi_Hw_CheckStatus_SPI1() == SPI_BUSY){
+       return SPI_BUSY; /* SPI đang bận */    
+   }
+
+   //Kiểm tra trạng thái của SPI2
+   if(Spi_Hw_CheckStatus_SPI2() == SPI_BUSY){
+       return SPI_BUSY; /* SPI đang bận */    
+   }
+
+   //Nếu không bận  trả về IDLE
+   return SPI_IDLE;
+}
+
+
+/******************************************************************
+* @brief Hủy một Sequence đang truyền
+* @param[in] Sequence ID của Sequence cần hủy
+* @details Hủy quá trình truyền của một Sequence hiện tại và
+*          dừng quá trình truyền dữ liệu.
+* @return Nếu E_OK là thành công, còn E_NOT_OK là không thành công
+**************************************************************** */
+Std_ReturnType Spi_Cancel(Spi_SequenceType Sequence) {
+    // Kiểm tra trạng thái của SPI
+    if (SpiStatus == SPI_UNINIT) {
+        return E_NOT_OK; // SPI chưa được khởi tạo
+    }
+
+    // Dựa trên Sequence, hủy quá trình truyền trên kênh SPI tương ứng
+    if (Sequence == SPI_SEQUENCE_0) {
+        // Hủy quá trình truyền trên SPI1
+        Spi_Hw_Disable_SPI1(); // Gọi hàm hủy trên SPI1
+    } else if (Sequence == SPI_SEQUENCE_1 || Sequence == SPI_SEQUENCE_2) {
+        // Hủy quá trình truyền trên SPI2
+        Spi_Hw_Disable_SPI2(); // Gọi hàm hủy trên SPI2
+    } else {
+        return E_NOT_OK; // Sequence không hợp lệ
+    }
+
+    // Cập nhật trạng thái Sequence thành đã bị hủy
+    SeqResult = SPI_SEQ_CANCELED;
+
+    // Trả về thành công
+    return E_OK;
+}
+
+
+///******************************************************************
+//* @brief Cài đặt chế độ không đồng bộ cho SPI
+//* @param[in] Mode Chế độ truyền không đồng bộ (SPI_POLLING_MODE hoặc SPI_INTERRUPT_MODE)
+//* @details Cài đặt chế độ không đồng bộ cho quá trình truyền nhận dữ liệu của SPI.
+//* @return Nếu E_OK là thành công, còn E_NOT_OK là không thành công
+//**************************************************************** */
+//Std_ReturnType Spi_SetAsyncMode(Spi_AsyncModeType Mode) {
+//    // Kiểm tra nếu SPI chưa khởi tạo
+//    if (SpiStatus == SPI_UNINIT) {
+//        return E_NOT_OK; // SPI chưa khởi tạo
+//    }
+
+//    // Kiểm tra chế độ cần chuyển đổi
+//    if (Mode == SPI_POLLING_MODE) {
+//        // Chuyển đổi sang chế độ POLLING
+//        Spi_Hw_SetPollingMode(); // Gọi hàm cài đặt chế độ polling
+//        SpiStatus = SPI_IDLE;   // Đặt trạng thái SPI về IDLE trong chế độ POLLING
+//    } else if (Mode == SPI_INTERRUPT_MODE) {
+//        // Chuyển đổi sang chế độ INTERRUPT
+//        Spi_Hw_SetInterruptMode(); // Gọi hàm cài đặt chế độ interrupt
+//        SpiStatus = SPI_IDLE;      // Đặt trạng thái SPI về IDLE trong chế độ INTERRUPT
+//    } else {
+//        // Nếu mode không hợp lệ, trả về lỗi
+//        return E_NOT_OK;
+//    }
+
+//    // Chế độ được chuyển đổi thành công
+//    return E_OK;
 //}
-
-
-///******************************************************************
-//* @brief Lấy kết quả của 1 Sequence SPI
-//* @param[in] Sequence ID của 1 seq
-//* @details Hàm này trả về kết quả của 1 sequence được truyền
-//* @return Kết quả Sequence (SPI_SEQ_OK, SPI_SEQ_PEDDING, SPI_SEQ_FAILED)
-//**************************************************************** */
-//Spi_SeqResultType Spi_GetSequenceResult (Spi_SequenceType Sequence){
-//   //Kiểm tra trạng thái SPI
-//   if(SpiStatus == SPI_UNINIT){
-//       return SPI_SEQ_FAILED;
-//   }
-
-//   //Dựa trên Sequence đang thực hiện
-//   if(Sequence == SPI_SEQUENCE_0){
-//       //Kiểm tra trạng thái của sequence trên SPI1
-//       return Spi_Hw_CheckSequenceStatus_SPI1();
-//   } else if (Sequence == SPI_SEQUENCE_1 || Sequence == SPI_SEQUENCE_2){
-//       //Kiểm tra trạng thái của Sequence trên SPI2
-//       return Spi_Hw_CheckSequenceStatus_SPI2();
-//   } else {
-//       return SPI_SEQ_FAILED;
-//   }   
-//}
-
-
-///******************************************************************
-//* @brief Lấy thông tin phiên bản của SPI Handle/Driver
-//* @param[in] versioninfo trỏ tới cấu trúc phiên bản
-//* @details Hàm này trả về thông tin phiên bản bao gồm
-//*          vendorID, moduleID và các phiên bản phần mềm
-//**************************************************************** */
-//void Spi_GetVersionInfo(Std_VersionInfoType* versioninfo){
-//   //Kiểm tra con trỏ versioninfo
-//   if(SpiStatus == NULL){
-//       return;
-//   }
-
-//   // Gán thông tin vendorID và moduleID
-//   versioninfo->vendorID = 1;
-//   versioninfo->moduleID = 123;
-//   
-//   //Gán các thông tin phiên bản phần mềm
-//   versioninfo->sw_major_version = 1;
-//   versioninfo->sw_minor_version = 0;
-//   versioninfo->sw_patch_version = 0;
-//}
-
-///******************************************************************
-//* @brief Truyền dữ liệu đồng bộ qua cổng SPI
-//* @param[in] Sequence ID của seq cần truyền
-//* @details Truyền dữ liệu đồng bộ qua SequenceSPI, đợi quá trình 
-//*          truyền hoàn thành.
-//* @return E_OK thành công, E_NOT_OK nếu có lỗi
-//**************************************************************** */
-//Std_ReturnType Spi_SyncTransmit(Spi_SequenceType Sequence){
-//   //Kiểm tra trạng thái SPI
-//   if(SpiStatus == SPI_UNINIT){
-//       return E_NOT_OK; //SPI chưa được khởi tạo
-//   }
-
-//   //Gọi hàm truyền không đồng bộ trước để quá trình bắt đầu truyền
-//   Std_ReturnType result = Spi_AsyncTransmit(Sequence);
-//   if(result != E_OK){
-//       return E_NOT_OK; //Nếu không thể truyền đồng bộ thì bị lỗi
-//   }
-
-//   //Đợi cho đến khi các Job trong Sequence được hoàn tất
-//   Spi_SeqResultType seqResult;
-//   do{
-//       seqResult = Spi_GetSequenceResult(Sequence);
-//   } while (seqResult == SPI_SEQ_PENDING); //Tiếp tục đợi nếu Sequence vẫn đang thực hiện
-
-//   //Kiểm tra kết quả cuối cùng của Sequence
-//   if(seqResult == SPI_SEQ_OK){
-//       return E_OK; //Truyền động bộ thành công
-//   } else {
-//       return E_NOT_OK; //Truyền đồng bộ không thành công
-//   }
-//}
-
-
-///******************************************************************
-//* @brief Lấy trạng thái đơn vị phần cứng của SPI
-//* @details Truyền dữ liệu đồng bộ qua SequenceSPI, đợi quá trình 
-//*          truyền hoàn thành.
-//* @return Trạng thái hiện tại của phần cứng (SPI_BUSY, SPI_IDLE)
-//**************************************************************** */
-//Spi_StatusType  Spi_GetHWUnitStatus(void){
-//   //Kiểm tra trạng thái phần cứng của SPI1
-//       //Kiểm tra trạng thái của SPI1
-//   if(Spi_Hw_CheckStatus_SPI1() == SPI_BUSY){
-//       return SPI_BUSY; /* SPI đang bận */    
-//   }
-
-//   //Kiểm tra trạng thái của SPI2
-//   if(Spi_Hw_CheckStatus_SPI2() == SPI_BUSY){
-//       return SPI_BUSY; /* SPI đang bận */    
-//   }
-
-//   //Nếu không bận  trả về IDLE
-//   return SPI_IDLE;
-//}
-
-
-///******************************************************************
-//* @brief Hủy một Sequence đang truyền
-//* @param[in] Sequence ID của Sequence cần hủy
-//* @details Hủy quá trình truyền của một Sequence hiện tại và
-//*          dừng quá trình truyền dữ liệu.
-//* @return Nếu E_OK là thành cộng, còn E_NOT_OK là không thành công
-//**************************************************************** */
-////void Spi_Cancel (Spi_SequenceType Sequence){
-////    //Kiểm tra trạng thái của SPI
-////    if(SpiStatus == SPI_UNINIT){
-////        return E_NOT_OK; //Chưa được khởi tạo SPI
-////    }
-
-////    //Dựa trên Sequence, hủy quá trình truyền trên kênh SPI tương ứng
-////    if(Sequence = SPI_SEQUENCE_0){
-////        //Hủy quá trình truyền trên SPI1
-////        spi_hw_
-////    }
-
-////}

@@ -113,19 +113,21 @@ typedef enum
 typedef uint32 Spi_BaudRateType;  /**< Tốc độ Baud rate, sử dụng kiểu uint32_t để hỗ trợ tốc độ baud lớn */
 
 /* Spi_ClockPolarityType: Cực tính của tín hiệu CLOCK */
-typedef uint8 Spi_ClockPolarityType;  /**< Cực tính CLOCK, giá trị có thể là 0 hoặc 1 */
+typedef uint16 Spi_ClockPolarityType;  /**< Cực tính CLOCK, giá trị có thể là 0 hoặc 1 */
 
 /* Spi_ClockPhaseType: Pha của tín hiệu CLOCK */
-typedef uint8 Spi_ClockPhaseType;  /**< Pha CLOCK, giá trị có thể là 0 hoặc 1 */
+typedef uint16 Spi_ClockPhaseType;  /**< Pha CLOCK, giá trị có thể là 0 hoặc 1 */
 
 /* Spi_ModeType: Chế độ SPI */
-typedef uint8 Spi_ModeType;  /**< Chế độ SPI, giá trị có thể là 0 (Master) hoặc 1 (Slave) */
+typedef uint16 Spi_ModeType;  /**< Chế độ SPI, giá trị có thể là 0 (Master) hoặc 1 (Slave) */
 
 /* Spi_NSSManagementType: Quản lý tín hiệu NSS (Slave Select) */
-typedef uint8 Spi_NSSManagementType;  /**< Quản lý NSS, có thể là 0 (phần mềm) hoặc 1 (phần cứng) */
+typedef uint16 Spi_NSSManagementType;  /**< Quản lý NSS, có thể là 0 (phần mềm) hoặc 1 (phần cứng) */
 
 /* Spi_DataSizeType: Kích thước dữ liệu truyền qua SPI */
-typedef uint8 Spi_DataSizeType;  /**< Kích thước dữ liệu, có thể là 8 hoặc 16 (bit) */
+typedef uint16 Spi_DataSizeType; 
+
+
 
 
 /*********************************************************
@@ -143,10 +145,13 @@ typedef struct
     //Các thông số cấu hình cấu hình cho SPI
     Spi_BaudRateType BaudRate;      /**<Tốc đô Baud rate(tùy chọn , mặc đinh 1Mhz) */
     Spi_ClockPolarityType CPOL;     /**<Cực tính CLOCK(tùy chọn, mặc định CPOL = 0) */
-    Spi_ClockPhaseType CPAL;        /**<Pha CLOCK(tùy chọn, mặc định CPAL = 0) */
+    Spi_ClockPhaseType CPHA;        /**<Pha CLOCK(tùy chọn, mặc định CPAL = 0) */
     Spi_ModeType Mode;              /**<Chế độ SPI(tùy chọn, mặc định Master) */
     Spi_NSSManagementType NSS;      /**<Quản lý NSS(tùy chọn, mặc định Software) */
-    Spi_DataSizeType DataSize;      /**<Kích thước dữ liệu(tùy chọn, mặc định 8-bit) */
+    Spi_DataSizeType DataSize;      /**<Kích thước dữ liệu */
+		uint16 Direction; 
+		uint16 FirstBit;
+	  uint16 CRCPolynomial; 
 } Spi_ConfigType;
 
 #endif /* SPI_TYPES_H */

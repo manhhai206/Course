@@ -22,26 +22,21 @@ Dialog DLL:      TCM.DLL V1.14.6.0
  
 <h2>Project:</h2>
 D:\Course\Embedded\Bai14_AUTOSAR\SPI\Code_Stm32\SPI.uvprojx
-Project File Date:  01/16/2025
+Project File Date:  01/18/2025
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
+compiling main.c...
 compiling Spi.c...
-..\Spi_Autosar\Spi_Cfg.h(85): warning:  #1-D: last line of file ends without a newline
-  #endif /* SPI_CFG_H */
-..\Spi_Autosar\Spi.c(269): warning:  #940-D: missing return statement at end of non-void function "Spi_SetupEB"
-  }
 ..\Spi_Autosar\Spi.c(5): warning:  #550-D: variable "JobResult" was set but never used
   static Spi_JobResultType JobResult = SPI_JOB_OK;
 ..\Spi_Autosar\Spi.c(6): warning:  #550-D: variable "SeqResult" was set but never used
   static Spi_SeqResultType SeqResult = SPI_SEQ_OK;
-..\Spi_Autosar\Spi.c: 4 warnings, 0 errors
+..\Spi_Autosar\Spi.c: 2 warnings, 0 errors
 linking...
-.\Objects\SPI.axf: Error: L6218E: Undefined symbol main (referred from __rtentry2.o).
-Not enough information to list image symbols.
-Finished: 1 information, 0 warning and 1 error messages.
-".\Objects\SPI.axf" - 1 Error(s), 4 Warning(s).
+Program Size: Code=2356 RO-data=336 RW-data=16 ZI-data=1632  
+".\Objects\SPI.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -53,14 +48,16 @@ Package Vendor: ARM
 
 Package Vendor: Keil
                 https://www.keil.com/pack/Keil.STM32F1xx_DFP.2.4.1.pack
-                Keil::Device:StdPeriph Drivers:RCC:3.6.0
+                Keil::Device:Startup:1.0.0
                 STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
-   * Component: RCC Version: 3.6.0
-   * Component: SPI Version: 3.6.0
    * Component: Startup Version: 1.0.0
-   * Component: Framework Version: 3.6.0
+   * Component: SPI Version: 3.6.0
    * Component: GPIO Version: 3.6.0
+   * Component: RCC Version: 3.6.0
+   * Component: Framework Version: 3.6.0
+   * Component: EXTI Version: 3.6.0
    * Component: GPIO Version: 1.3
+   * Component: TIM Version: 3.6.0
 
 <h2>Collection of Component include folders:</h2>
   D:\Course\Embedded\Bai14_AUTOSAR\SPI\Code_Stm32\RTE
@@ -74,35 +71,42 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:4.3.0
 
+   * Component: Keil::Device:Startup:1.0.0
+      Include file:  RTE_Driver\Config\RTE_Device.h
+      Source file:   Device\Source\system_stm32f10x.c
+      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
+      Source file:   Device\Source\ARM\STM32F1xx_OPT.s
+
+   * Component: Keil::Device:StdPeriph Drivers:SPI:3.6.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_spi.h
+
+   * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
+
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.6.0
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
 
-   * Component: Keil::Device:StdPeriph Drivers:SPI:3.6.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_spi.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_spi.c
-
-   * Component: Keil::Device:Startup:1.0.0
-      Include file:  RTE_Driver\Config\RTE_Device.h
-      Source file:   Device\Source\system_stm32f10x.c
-      Source file:   Device\Source\ARM\STM32F1xx_OPT.s
-      Source file:   Device\Source\ARM\startup_stm32f10x_md.s
-
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.6.0
       Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
-      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
-      Source file:   Device\StdPeriph_Driver\src\misc.c
       Include file:  Device\StdPeriph_Driver\inc\misc.h
+      Source file:   Device\StdPeriph_Driver\src\misc.c
       Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
+      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
 
-   * Component: Keil::Device:StdPeriph Drivers:GPIO:3.6.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_gpio.c
+   * Component: Keil::Device:StdPeriph Drivers:EXTI:3.6.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_exti.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_exti.c
 
    * Component: Keil::Device:GPIO:1.3
       Include file:  RTE_Driver\GPIO_STM32F10x.h
       Source file:   RTE_Driver\GPIO_STM32F10x.c
-Target not created.
+
+   * Component: Keil::Device:StdPeriph Drivers:TIM:3.6.0
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
 Build Time Elapsed:  00:00:00
 </pre>
 </body>

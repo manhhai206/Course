@@ -5,7 +5,6 @@
 #include "stm32f10x_rcc.h"	/* Thư viện chuẩn của STM32F103C8 */
 #include "stm32f10x_gpio.h"	/* Thư viện chuẩn của STM32F103C8 */
 
-
 /*************************************************************
  * @brief Định nghĩa các trạng thái của NSS (Select Slave)
  ************************************************************* */
@@ -85,7 +84,8 @@ typedef enum{
  ***************************************************************/
 #define SETUP_SPI_GPIO(SPI_CHANNEL, RCC_APB, GPIO_RCC, GPIO_PORT, GPIO_PINS)\
     do {                                                                    \
-        /* Bật xung nhịp cho SPI và GPIO */                                 \
+        /* Bật xung nhịp cho SPI và GPIO */ 																\
+				RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);																																		\
         if ((SPI_CHANNEL) == SPI1) {                                        \
             RCC_APB2PeriphClockCmd((RCC_APB), ENABLE);                      \
         } else {                                                            \
@@ -249,7 +249,7 @@ static inline void Spi_Hw_WaitReceiveBufferFull_SPI2(void) {
  * @brief Đọc dữ liệu nhận được từ SPI1
  * @return Dữ liệu từ bộ đệm nhận của SPI1
  *************************************************************/
-Spi_DataBufferType Spi_I2S_ReceiveData_SPI1(void) {
+static inline Spi_DataBufferType Spi_I2S_ReceiveData_SPI1(void) {
     return (Spi_DataBufferType)SPI_I2S_ReceiveData(SPI1);
 }
 
@@ -258,7 +258,7 @@ Spi_DataBufferType Spi_I2S_ReceiveData_SPI1(void) {
  * @brief Đọc dữ liệu nhận được từ SPI2
  * @return Dữ liệu từ bộ đệm nhận của SPI2
  *************************************************************/
-Spi_DataBufferType Spi_I2S_ReceiveData_SPI2(void) {
+static inline Spi_DataBufferType Spi_I2S_ReceiveData_SPI2(void) {
     return (Spi_DataBufferType)SPI_I2S_ReceiveData(SPI2);
 }
 
@@ -269,7 +269,7 @@ Spi_DataBufferType Spi_I2S_ReceiveData_SPI2(void) {
 *          đang bận hay sẵn sàng.
 * @return Trạng thái của SPI1: SPI_BUSY hoặc SPI_IDLE
 ******************************************************************/
-Spi_StatusType Spi_Hw_CheckStatus_SPI1(void) {
+static inline Spi_StatusType Spi_Hw_CheckStatus_SPI1(void) {
 		// Kiểm tra cờ trạng thái BSY của SPI1
 		if (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET) {
 				return SPI_BUSY;
@@ -285,7 +285,7 @@ Spi_StatusType Spi_Hw_CheckStatus_SPI1(void) {
 *          đang bận hay sẵn sàng.
 * @return Trạng thái của SPI2: SPI_BUSY hoặc SPI_IDLE
 ******************************************************************/
-Spi_StatusType Spi_Hw_CheckStatus_SPI2(void) {
+static inline Spi_StatusType Spi_Hw_CheckStatus_SPI2(void) {
     // Kiểm tra cờ trạng thái BSY của SPI2
     if (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET) {
         return SPI_BUSY; /* SPI2 đang bận */
@@ -294,6 +294,149 @@ Spi_StatusType Spi_Hw_CheckStatus_SPI2(void) {
     // Nếu cờ BSY không được SET, trả về SPI_IDLE
     return SPI_IDLE; /* SPI2 sẵn sàng */
 }
+
+
+/******************************************************************
+* @brief Kiểm tra trạng thái của job trên kênh SPI1
+* @details Hàm này kiểm tra trạng thái của job đang được thực thi trên SPI1
+*          dựa vào các cờ trạng thái của phần cứng SPI.
+* @return Trạng thái của job:
+*         - SPI_JOB_OK: Job hoàn thành.
+*         - SPI_JOB_PENDING: Job đang được xử lý.
+*         - SPI_JOB_FAILED: Job thất bại hoặc không thực hiện được.
+******************************************************************/
+static inline Spi_JobResultType Spi_Hw_CheckJobStatus_SPI1(void) {
+    // Kiểm tra cờ RXNE (Receive Buffer Not Empty) của SPI1
+    // Nếu cờ RXNE được SET, nghĩa là dữ liệu đã được nhận xong,
+    // job đã hoàn thành thành công.
+    if (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == SET) {
+        return SPI_JOB_OK; // Job hoàn thành
+    } 
+    // Kiểm tra cờ BSY (Busy Flag) của SPI1
+    // Nếu cờ BSY được SET, nghĩa là SPI1 đang bận xử lý job hiện tại,
+    // job vẫn đang được thực hiện.
+    else if (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET) {
+        return SPI_JOB_PENDING; // Job đang xử lý
+    } 
+    // Nếu cả hai cờ RXNE và BSY đều không được SET,
+    // nghĩa là job đã thất bại hoặc SPI không hoạt động.
+    else {
+        return SPI_JOB_FAILED; // Job thất bại
+    }
+}
+
+
+/******************************************************************
+* @brief Kiểm tra trạng thái của job trên kênh SPI2
+* @details Hàm này kiểm tra trạng thái của job đang được thực thi trên SPI2
+*          dựa vào các cờ trạng thái của phần cứng SPI.
+* @return Trạng thái của job:
+*         - SPI_JOB_OK: Job hoàn thành.
+*         - SPI_JOB_PENDING: Job đang được xử lý.
+*         - SPI_JOB_FAILED: Job thất bại hoặc không thực hiện được.
+******************************************************************/
+static inline Spi_JobResultType Spi_Hw_CheckJobStatus_SPI2(void) {
+    // Kiểm tra cờ RXNE (Receive Buffer Not Empty) của SPI2
+    // Nếu cờ RXNE được SET, nghĩa là dữ liệu đã được nhận xong,
+    // job đã hoàn thành thành công.
+    if (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_RXNE) == SET) {
+        return SPI_JOB_OK; // Job hoàn thành
+    } 
+    // Kiểm tra cờ BSY (Busy Flag) của SPI2
+    // Nếu cờ BSY được SET, nghĩa là SPI2 đang bận xử lý job hiện tại,
+    // job vẫn đang được thực hiện.
+    else if (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET) {
+        return SPI_JOB_PENDING; // Job đang xử lý
+    } 
+    // Nếu cả hai cờ RXNE và BSY đều không được SET,
+    // nghĩa là job đã thất bại hoặc SPI không hoạt động.
+    else {
+        return SPI_JOB_FAILED; // Job thất bại
+    }
+}
+
+/******************************************************************
+* @brief Kiểm tra trạng thái của một Sequence trên SPI1
+* @details Hàm này kiểm tra cờ trạng thái phần cứng để xác định 
+* trạng thái hiện tại của Sequence
+* @return Kết quả Sequence (SPI_SEQ_OK, SPI_SEQ_PENDING, SPI_SEQ_FAILED)
+**************************************************************** */
+static inline Spi_SeqResultType Spi_Hw_CheckSequenceStatus_SPI1(void) {
+    // Kiểm tra nếu cờ RXNE (Receive Not Empty) được bật
+    if (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == SET) {
+        return SPI_SEQ_OK; // Sequence hoàn thành
+    } 
+    // Kiểm tra nếu cờ BSY (Busy) đang bật
+    else if (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET) {
+        return SPI_SEQ_PENDING; // Sequence đang xử lý
+    } 
+    // Các trường hợp khác, coi như Sequence thất bại
+    else {
+        return SPI_SEQ_FAILED; // Sequence thất bại
+    }
+}
+
+
+/******************************************************************
+* @brief Kiểm tra trạng thái của một Sequence trên SPI2
+* @details Hàm này kiểm tra cờ trạng thái phần cứng để xác định 
+* trạng thái hiện tại của Sequence
+* @return Kết quả Sequence (SPI_SEQ_OK, SPI_SEQ_PENDING, SPI_SEQ_FAILED)
+**************************************************************** */
+static inline Spi_SeqResultType Spi_Hw_CheckSequenceStatus_SPI2(void) {
+    // Kiểm tra nếu cờ RXNE (Receive Not Empty) được bật
+    if (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_RXNE) == SET) {
+        return SPI_SEQ_OK; // Sequence hoàn thành
+    } 
+    // Kiểm tra nếu cờ BSY (Busy) đang bật
+    else if (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_BSY) == SET) {
+        return SPI_SEQ_PENDING; // Sequence đang xử lý
+    } 
+    // Các trường hợp khác, coi như Sequence thất bại
+    else {
+        return SPI_SEQ_FAILED; // Sequence thất bại
+    }
+}
+
+
+///******************************************************************
+//* @brief Chuyển SPI sang chế độ Polling (thăm dò)
+//* @details Tắt tất cả các ngắt liên quan đến SPI và chuyển chế độ sang Polling.
+//**************************************************************** */
+//static inline void Spi_Hw_SetPollingMode(void) {
+//    // Tắt các ngắt chính và phụ của SPI1
+//    NVIC_DisableIRQ(SPI1_IRQn); 
+//    NVIC_DisableIRQ(SPI1_RX_IRQn);
+//    NVIC_DisableIRQ(SPI1_TX_IRQn);
+
+//    // Tắt các ngắt chính và phụ của SPI2
+//    NVIC_DisableIRQ(SPI2_IRQn); 
+//    NVIC_DisableIRQ(SPI2_RX_IRQn);
+//    NVIC_DisableIRQ(SPI2_TX_IRQn); 
+
+//    // Đặt trạng thái SPI về IDLE
+//    SpiS = SPI_IDLE;
+//}
+
+
+///******************************************************************
+//* @brief Chuyển SPI sang chế độ Interrupt (ngắt)
+//* @details Bật tất cả các ngắt liên quan đến SPI và chuyển chế độ sang Interrupt.
+//**************************************************************** */
+//static inline void Spi_Hw_InterruptMode(void) {
+//    // Bật các ngắt chính và phụ của SPI1
+//    NVIC_EnableIRQ(SPI1_IRQn); 
+//    NVIC_EnableIRQ(SPI1_RX_IRQn);
+//    NVIC_EnableIRQ(SPI1_TX_IRQn);
+
+//    // Bật các ngắt chính và phụ của SPI2
+//    NVIC_EnableIRQ(SPI2_IRQn); 
+//    NVIC_EnableIRQ(SPI2_RX_IRQn);
+//    NVIC_EnableIRQ(SPI2_TX_IRQn); 
+
+//    // Đặt trạng thái SPI về IDLE
+//    SpiStatus = SPI_IDLE;
+//}
 
 
 #endif /* SPI_HW_H */
