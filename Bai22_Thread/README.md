@@ -73,7 +73,10 @@
 - std::atomic được thiết kế để thực hiện các thao tác trên các biến toàn cục(chứa dữ liệu) mà cac thao tác này không bị gián đoạn bởi các luồng khác.
 
 ### Condition Variabble
+- std::condition_variable là 1 cơ chế giao tiếp và đồng bộ giữa 2 hoặc nhiều luồng, cho phép luồng chờ cho đến khi 1 điều kiện cụ thể  được đáp ứng , và 1 luồng khác có thể thông báo khi điều kiện được thỏa mãn.
 
-
+- wait():
+- notify_one()
+- notify_all()
 
 ## Luồng bất đồng bộ
