@@ -5,6 +5,7 @@
 #include "UI.hpp"
 #include "EmployeeManager.hpp"
 #include "RoomManager.hpp"
+#include "ServiceManager.hpp"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ class Manager
 
         EmployeeManager employeeManager;
         RoomManager roomManager;
+        ServiceManager serviceManager;
 
         /* Các phương thức dùng để quản lý nhân viên */
         void manageEmployees();     /**< Quản lý nhân viên */

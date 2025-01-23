@@ -1,7 +1,6 @@
-#ifndef ROOM_HPP
-#define ROOM_HPP
+#ifndef ROOMMANAGER_HPP
+#define ROOMMANAGER_HPP
 
-#include "Account.hpp"
 #include <vector>
 #include <string>
 
@@ -27,6 +26,7 @@ class Room
         string getPrice() const { return price_; }
 
         // Setter
+        void setRoom(const string& newRoom) { roomNumber_ = newRoom; }
         void setRoomType(const string& newRoomType) { roomType_ = newRoomType; }
         void setBedCount(const string& newBedCount) { bedCount_ = newBedCount; }
         void setPrice(const string& newPrice) { price_ = newPrice; }
@@ -38,14 +38,16 @@ class RoomManager
         vector<Room> roomlist;
 
     public:
-        /* Thêm nhân viên với ID tự động */
+        /* Thêm phòng với ID  */
         void addRoom(const string& roomNumber, const string& roomType, const string& bedCount, const string& price);
 
-        /* Sửa thông tin nhân viên dựa theo ID */
-        void editRoom(const string&roomNumber, const string& newRoomType, const string& newBedCount, const string& newPrice);
+        /* Sửa thông tin phòng dựa theo ID */
+        void editRoom(const string& roomNumber, const string& newRoom, const string& newRoomType, const string& newBedCount, const string& newPrice);
 
+        /* Xóa thông tin phòng dựa theo ID */
         void deleteRoom(const string& roomNumber);
-
+        
+        /* Danh sách phòng */
         void listRooms() const;
 };
 

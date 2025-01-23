@@ -21,12 +21,13 @@ void RoomManager::addRoom(const string& roomNumber, const string& roomType, cons
     UI::showMessage("Room " + roomNumber + " added to the room list.");
 }
 
-void RoomManager::editRoom(const string& roomNumber, const string& newRoomType, const string& newBedCount, const string& newPrice) 
+void RoomManager::editRoom(const string& roomNumber, const string& newRoom, const string& newRoomType, const string& newBedCount, const string& newPrice) 
 {
     for (auto& room : roomlist) 
     {
         if (room.getRoomNumber() == roomNumber) 
         {
+            room.setRoom(newRoom);
             room.setRoomType(newRoomType);
             room.setBedCount(newBedCount);
             room.setPrice(newPrice);

@@ -176,12 +176,13 @@ void Manager::editRoom() {
     UI::showMessage("Please input the Room you want to edit:");
     
     string roomNumber = UI::getInputString("Enter room number: ");
+    string newRoom = UI::getInputString("Enter new Room: ");
     string newRoomType = UI::getInputString("Enter new Type: ");
     string newBedCount = UI::getInputString("Enter new Bed Count: ");
     string newPrice = UI::getInputString("Enter new Price: ");
 
     // Sửa thông tin phòng
-    roomManager.editRoom(roomNumber, newRoomType, newBedCount, newPrice);
+    roomManager.editRoom(roomNumber, newRoom ,newRoomType, newBedCount, newPrice);
     UI::showMessage("Room information updated successfully.");
 }
 
@@ -202,7 +203,6 @@ void Manager::deleteRoom()
     UI::showMessage("Room " + roomNumber + " deleted successfully.");
 }
 
-
 void Manager::listRooms() {
     UI::showMessage("=== The Room List ===");
 
@@ -215,12 +215,18 @@ void Manager::listRooms() {
 
 /* Quản lý dịch vụ */
 void Manager::manageServices() {
-    Menu serviceMenu("Service Management", {  // Menu quản lý dịch vụ
-        {1, "Add Service", [this]() { addService(); }},  // Lựa chọn 1: Thêm dịch vụ
-        {2, "Edit Service Information", [this]() { editService(); }},  // Lựa chọn 2: Sửa thông tin dịch vụ
-        {3, "Delete Service", [this]() { deleteService(); }},  // Lựa chọn 3: Xóa dịch vụ
-        {4, "List Services", [this]() { listServices(); }},  // Lựa chọn 4: Xem danh sách dịch vụ
-        {0, "Back", []() { UI::showMessage("Back to the management menu..."); }}  // Lựa chọn 0: Quay lại menu quản lý
+    Menu serviceMenu("Service Management", 
+    {  
+        // Lựa chọn 1: Thêm dịch vụ
+        {1, "Add Service", [this]() { addService(); }},
+        // Lựa chọn 2: Sửa thông tin dịch vụ
+        {2, "Edit Service Information", [this]() { editService(); }},
+        // Lựa chọn 3: Xóa dịch vụ
+        {3, "Delete Service", [this]() { deleteService(); }},
+        // Lựa chọn 4: Xem danh sách dịch vụ
+        {4, "List Services", [this]() { listServices(); }},
+        // Lựa chọn 0: Quay lại menu quản lý
+        {0, "Back", []() { UI::showMessage("Back to the management menu..."); }}
     });
 
     serviceMenu.showMenu();  // Hiển thị menu quản lý dịch vụ
@@ -228,20 +234,64 @@ void Manager::manageServices() {
 
 void Manager::addService() {
     UI::showMessage("Adding Service...");  // Hiển thị thông báo thêm dịch vụ
-    // Thêm logic thêm dịch vụ ở đây
+
+    while (true) {
+        // Thu thập thông tin dịch vụ từ người dùng
+        string name = UI::getInputString("Enter name service: ");
+        string description = UI::getInputString("Enter description service: ");
+        string price = UI::getInputString("Enter price service: ");
+
+        // Thêm phòng vào hệ thống
+        serviceManager.addService(name, description, price);
+
+        // Thông báo thành công
+        UI::showMessage("Service " + name + " added successfully.");
+
+        int choice = UI::getUserChoice("Add another service (1) or Back (0): ");
+        if (choice == 0) {
+            break; 
+        }
+    }
 }
 
 void Manager::editService() {
     UI::showMessage("Editing Service Information...");  // Hiển thị thông báo sửa dịch vụ
-    // Thêm logic sửa dịch vụ ở đây
+    
+    // Hiển thị danh sách các dịch vụ
+    serviceManager.listServices();
+
+    UI::showMessage("Please input the Service you want to edit:");
+    string name = UI::getInputString("Enter name service: ");
+    string newName = UI::getInputString("Enter new name service: ");
+    string newDescription = UI::getInputString("Enter new description service: ");
+    string newPrice = UI::getInputString("Enter new price service: ");
+
+    // Sửa thông tin phòng
+    serviceManager.editService(name, newName, newDescription, newPrice);
+    UI::showMessage("Service information updated successfully.");
 }
 
 void Manager::deleteService() {
     UI::showMessage("Deleting Service...");  // Hiển thị thông báo xóa dịch vụ
-    // Thêm logic xóa dịch vụ ở đây
+
+    // Hiển thị danh sách dịch vụ hiện có
+    serviceManager.listServices();
+    
+    UI::showMessage("Please input the service number to delete:");
+
+    // Nhập dịch vụ cần xóa
+    string name = UI::getInputString("Input Service: ");
+    
+    // Xóa phòng
+    serviceManager.deleteService(name);
+    UI::showMessage("Service " + name + " deleted successfully.");
 }
 
 void Manager::listServices() {
     UI::showMessage("Listing Services...");  // Hiển thị thông báo liệt kê dịch vụ
-    // Thêm logic liệt kê dịch vụ ở đây
+    
+    // Hiển thị danh sách dịch vụ hiện có
+    serviceManager.listServices();
+
+    UI::showMessage("------------------");
 }
