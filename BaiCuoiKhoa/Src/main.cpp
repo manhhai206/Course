@@ -8,39 +8,39 @@ using namespace std;
 
 int main(){ 
 
-    Account adminAccount("admin", "123456");  // Tài khoản admin
-    Account employeeAccount("user", "123456"); // Tài khoản người dùng
+    Account adminAccount("admin", "1");  // Tài khoản admin
+    Account employeeAccount("receiptionist", "1"); // Tài khoản lễ tân
     accountList.push_back(adminAccount);
     accountList.push_back(employeeAccount);
 
-    std::string account, password;
+    string account, password;
 
-    std::cout << "\n---- Enter the ID name ----" << std::endl;
+    cout << "\n---- Enter the ID name ----" << endl;
     
     // Nhập tài khoản (có thể là số điện thoại hoặc account)
-    std::cout << "Enter the ID (Account/Phone number): ";
-    std::cin >> account;
+    cout << "Enter the ID (Account/Phone number): ";
+    cin >> account;
 
     // Nhập mật khẩu
-    std::cout << "Enter the password: ";
-    std::cin >> password;
+    cout << "Enter the password: ";
+    cin >> password;
 
     // Kiểm tra đăng nhập
     if (Account::login(accountList, account, password)) {
-        std::cout << "Login sucessfully !" << std::endl;
+        cout << "Login sucessfully !" << endl;
 
         // Kiểm tra nếu tài khoản là "admin"
         if (account == "admin") {
-            std::cout << "Hello Manager!" << std::endl;
+            cout << "Hello Manager !" << endl;
             Manager manager;
             manager.showManagementMenu();  // Hiển thị menu quản lý
-        } else {
-            std::cout << "Hello user!" << std::endl;
-            // Gọi menu người dùng (nếu cần thêm chức năng cho người dùng bình thường)
+        } else if(account == "receiptionist"){
+            cout << "Hello Receiptionist !" << endl;
+            
         }
 
     } else {
-        std::cout << "Login Failse! The ID or password is not correct." << std::endl;
+        cout << "Login Failse! The ID or password is not correct." << endl;
     }
 
     return 0;

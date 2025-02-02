@@ -19,7 +19,7 @@ string EmployeeManager::generateEmployeeID(const string& position)
     } else if (position == "Receiptionist") {
         ss << "RE";
     } else {
-        ss << "ST"; // Mặc định là Staff
+        ss << "ST"; 
     }
 
     /**
