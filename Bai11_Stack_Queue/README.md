@@ -5,6 +5,8 @@
 
 Stack là ngăn xếp hoạt động theo cơ chế **LIFO (Last In, First Out)**, nghĩa là phần tử nào đưa vào sau cùng sẽ được lấy ra trước, và phần tử đưa vào đầu tiên sẽ nằm ở đáy và được lấy ra sau cùng.
 
+![](https://images.viblo.asia/f90f90ab-e709-431b-9e15-726ec6550dc7.png)
+
 Các thao tác cơ bản trên stack bao gồm:
 - “ push” (đẩy) để thêm một phần tử vào đỉnh của stack.
 - “ pop” để xóa một phần tử ở đỉnh stack.
@@ -53,6 +55,8 @@ void push(stack *Stack, int value) {
     }
 }
 ```
+
+
 push: Thêm một phần tử vào đỉnh của stack. Nếu stack chưa đầy, tăng top lên và gán value vào vị trí top mới. Nếu stack đầy, thông báo tràn stack.
 
 ```c
