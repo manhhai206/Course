@@ -1,5 +1,7 @@
 
 # Virtual Function
+
+![](https://camo.githubusercontent.com/90641c46938397e9bc2a0dd2ee0c0365fab8f16a4bc8347b73c9569c8a6fc5e9/68747470733a2f2f73332d73676e30392e667074636c6f75642e636f6d2f636f64656c6561726e73746f726167652f4d656469612f44656661756c742f55736572732f4461745472616e6e2f4f4f502f6370702d706f6c796d6f72706869736d2e706e67)
 - Hàm ảo là một thành viên trong lớp cha, được khai báo với từ khóa virtual.
 - Một đối tượng gọi 1 method ra thì gọi method ở class nào dựa trên đối tượng thực tế mà con trỏ/ tham chiếu trỏ đến, chứ không dựa vào kiểu của con trỏ/ tham chiếu.
 ```c
