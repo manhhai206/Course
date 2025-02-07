@@ -102,21 +102,36 @@ int dequeue(Queue *queue)
     }
 }
 
+/**
+ * @brief Lấy giá trị phần tử đầu tiên của hàng đợi mà không loại bỏ.
+ */
+int front(Queue *queue) {
+    if (!isEmpty(*queue)) {
+        printf("Queue front: %d\n",queue->items[queue->front]);
+        return queue->items[queue->front];
+    } else {
+        printf("Queue is empty\n");
+        return -1;
+    }
+}
+
 
 int main()
 {
     Queue *queue = Initialize(5);
-    enqueue(queue, 10);
-    enqueue(queue, 20);
-    enqueue(queue, 30);
+    enqueue(queue, 1);
+    enqueue(queue, 2);
+    enqueue(queue, 3);
+    front(queue);
     printf("Dequeued: %d\n", dequeue(queue));
     printf("Dequeued: %d\n", dequeue(queue));
-    enqueue(queue, 40);
-    enqueue(queue, 50);
-    enqueue(queue, 60);
-    enqueue(queue, 70);
+    enqueue(queue, 4);
+    enqueue(queue, 5);
+    enqueue(queue, 6);
+    front(queue);
+    enqueue(queue, 7);
     printf("Dequeued: %d\n", dequeue(queue));
-
+    front(queue);
 
     free(queue->items);
     free(queue);

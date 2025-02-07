@@ -131,7 +131,6 @@ int main() {
     printf("Pop element: %d\n", pop(Stack));
     printf("Pop element: %d\n", pop(Stack));
     
-    free(Stack->data);
     free(Stack); 
 
     return 0;
