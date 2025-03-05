@@ -1,62 +1,61 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void merger(int *arr, int left, int mid, int righ)
+void merge(int *arr,int left, int middle, int right)
 {
+    int leng_left = middle - left + 1;
+    int leng_right =  right - middle;
 
-    int leng_left = mid - left + 1; //Độ dài dãy bên trái
-    int leng_righ = righ - mid; //Độ dài dãy bên phải
-
-    // Tạo mảng tạm thời
+    int a_right[leng_right];
     int a_left[leng_left];
-    int a_righ[leng_righ];
 
-    //Copy từng giá trị vào mảng a_left
-    for(int i = 0; i < leng_left; i++)
-        a_left[i] = arr[left + i];
-    //Copy từng giá trị vào mảng a_left
-    for(int i = 0; i < leng_righ; i++)
-        a_righ[i] = arr[mid + 1 + i]; 
-
-    // Gộp hai mảng con theo quy tắc phần tử nhỏ hơn đưa vào trước
-    int i = 0, j = 0, k = left;
-    while (i < leng_left && j < leng_righ) 
+    for(int i = 0; i< leng_left;i++)
     {
-        if (a_left[i] <= a_righ[j]) {
+        a_left[i] = arr[left + i];
+    }
+
+    for(int i = 0; i< leng_right;i++)
+    {
+        a_right[i] = arr[middle + 1 + i];
+    }
+
+    int i=0, j=0, k = left;
+
+    while(i<leng_left && j <leng_right){
+        if(a_left[i] < a_right[j]){
             arr[k] = a_left[i];
             i++;
         } else {
-            arr[k] = a_righ[j];
+            arr[k] = a_right[j];
             j++;
         }
         k++;
     }
-
-    // Copy các phần tử còn lại của mảng bên trái (nếu có)
-    while (i < leng_left) {
-        arr[k] = a_left[i];
+    
+    while(i<leng_left){
+        arr[k] =  a_left[i];
         i++;
         k++;
     }
 
-    // Copy các phần tử còn lại của mảng bên phải (nếu có)
-    while (j < leng_righ) {
-        arr[k] = a_righ[j];
+    while(j<leng_right){
+        arr[k] =  a_right[j];
         j++;
         k++;
     }
 }
 
-void mergerSort(int *arr, int left, int righ)
+void mergeSort(int *arr, int left,int right)
 {
-    if (left < righ)
+    if(left <right)
     {
-        int mid = left + (righ - left) / 2;
-        // Gọi đệ quy sắp xếp từng phần bên trái và bên phải
-        mergerSort(arr, left, mid);
-        mergerSort(arr, mid + 1, righ);
-        // Gộp hai phần đã sắp xếp lại với nhau
-        merger(arr, left, mid, righ);
+        int mid = left+(right-left) /2;
+        mergeSort(arr,left,mid);
+        mergeSort(arr,mid+1,right);
+
+        //Tron 2 mang lai
+        merge(arr,left,mid,right);
+
     }
 }
 
@@ -76,7 +75,7 @@ int main()
     printf("Given array is \n");
     printArray(arr, arr_size);
 
-    mergerSort(arr, 0, arr_size - 1);
+    mergeSort(arr, 0, arr_size - 1);
 
     printf("\nSorted array is \n");
     printArray(arr, arr_size);
