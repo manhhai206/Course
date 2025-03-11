@@ -257,3 +257,7 @@ int main(){
 - notify_one(): gửi thông báo tới 1 luồng đang chờ.
 - notify_all(): gửi thông báo cho nhiều luồng đang chờ.
 
+# Semaphore
+
+- Semaphore được dùng khi muốn kiểm soát số lượng thread nhất định được truy cập vào tài nguyên nào đó.
+Ví dụ có 50 thread mà chỉ muốn 5 thread truy cập tài nguyên vào cùng 1 thời điểm.
